@@ -16,7 +16,7 @@ export default pubsub => ({
           cursor: student.id,
           node: {
             id: student.id,
-            title: student.title,
+            firstName: student.firstName,
             content: student.content
           }
         });

@@ -6,7 +6,7 @@ import { FormView, RenderField, FormButton } from '../../common/components/nativ
 import { required, validateForm } from '../../../../../common/validation';
 
 const studentFormSchema = {
-  title: [required],
+  firstName: [required],
   content: [required]
 };
 
@@ -15,7 +15,7 @@ const validate = values => validateForm(values, studentFormSchema);
 const StudentForm = ({ values, handleSubmit }) => {
   return (
     <FormView>
-      <Field name="title" component={RenderField} type="text" label="Title" value={values.title} />
+      <Field name="firstName" component={RenderField} type="text" label="FirstName" value={values.firstName} />
       <Field name="content" component={RenderField} type="text" label="Content" value={values.content} />
       <FormButton onPress={handleSubmit}>Save</FormButton>
     </FormView>
@@ -32,7 +32,7 @@ StudentForm.propTypes = {
 
 const StudentFormWithFormik = withFormik({
   mapPropsToValues: props => ({
-    title: props.student && props.student.title,
+    firstName: props.student && props.student.firstName,
     content: props.student && props.student.content
   }),
   validate: values => validate(values),

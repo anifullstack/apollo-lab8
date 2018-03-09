@@ -79,15 +79,15 @@ export default compose(
   }),
   graphql(ADD_STUDENT, {
     props: ({ ownProps: { history, navigation }, mutate }) => ({
-      addStudent: async (title, content) => {
+      addStudent: async (firstName, content) => {
         let studentData = await mutate({
-          variables: { input: { title, content } },
+          variables: { input: { firstName, content } },
           optimisticResponse: {
             __typename: 'Mutation',
             addStudent: {
               __typename: 'Student',
               id: null,
-              title: title,
+              firstName: firstName,
               content: content,
               journals: []
             }
@@ -114,9 +114,9 @@ export default compose(
   }),
   graphql(EDIT_STUDENT, {
     props: ({ ownProps: { history, navigation }, mutate }) => ({
-      editStudent: async (id, title, content) => {
+      editStudent: async (id, firstName, content) => {
         await mutate({
-          variables: { input: { id, title, content } }
+          variables: { input: { id, firstName, content } }
         });
         if (history) {
           return history.push('/students');

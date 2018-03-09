@@ -1,7 +1,7 @@
 # Student
 type Student {
   id: Int!
-  title: String!
+  firstName: String!
   content: String!
   journals: [Journal]
 }
@@ -55,14 +55,14 @@ extend type Mutation {
 
 # Input for addStudent Mutation
 input AddStudentInput {
-  title: String!
+  firstName: String!
   content: String!
 }
 
 # Input for editStudent Mutation
 input EditStudentInput {
   id: Int!
-  title: String!
+  firstName: String!
   content: String!
 }
 

@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Table, Button } from '../../common/components/web';
-import StudentJournalForm from './StudentJournalForm';
+import React from "react";
+import PropTypes from "prop-types";
+import { Table, Button } from "../../common/components/web";
+import StudentJournalForm from "./StudentJournalForm";
 
 export default class StudentJournalsView extends React.PureComponent {
   static propTypes = {
@@ -24,14 +24,20 @@ export default class StudentJournalsView extends React.PureComponent {
     const { journal, onJournalSelect, deleteJournal } = this.props;
 
     if (journal.id === id) {
-      onJournalSelect({ id: null, content: '' });
+      onJournalSelect({ id: null, content: "" });
     }
 
     deleteJournal(id);
   };
 
   onSubmit = () => values => {
-    const { journal, studentId, addJournal, editJournal, onJournalSelect } = this.props;
+    const {
+      journal,
+      studentId,
+      addJournal,
+      editJournal,
+      onJournalSelect
+    } = this.props;
 
     if (journal.id === null) {
       addJournal(values.content, studentId);
@@ -39,20 +45,20 @@ export default class StudentJournalsView extends React.PureComponent {
       editJournal(journal.id, values.content);
     }
 
-    onJournalSelect({ id: null, content: '' });
+    onJournalSelect({ id: null, content: "" });
   };
 
   render() {
     const { studentId, journals, journal } = this.props;
     const columns = [
       {
-        title: 'Content',
-        dataIndex: 'content',
-        key: 'content'
+        title: "Content",
+        dataIndex: "content",
+        key: "content"
       },
       {
-        title: 'Actions',
-        key: 'actions',
+        title: "Actions",
+        key: "actions",
         width: 120,
         render: (text, record) => (
           <div style={{ width: 120 }}>
@@ -63,7 +69,7 @@ export default class StudentJournalsView extends React.PureComponent {
               onClick={() => this.handleEditJournal(record.id, record.content)}
             >
               Edit
-            </Button>{' '}
+            </Button>{" "}
             <Button
               color="primary"
               size="sm"
@@ -80,7 +86,12 @@ export default class StudentJournalsView extends React.PureComponent {
     return (
       <div>
         <h3>Journals</h3>
-        <StudentJournalForm studentId={studentId} onSubmit={this.onSubmit()} initialValues={journal} journal={journal} />
+        <StudentJournalForm
+          studentId={studentId}
+          onSubmit={this.onSubmit()}
+          initialValues={journal}
+          journal={journal}
+        />
         <h1 />
         <Table dataSource={journals} columns={columns} />
       </div>

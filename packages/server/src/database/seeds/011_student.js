@@ -8,7 +8,7 @@ export async function seed(knex, Promise) {
       const student = await knex('student')
         .returning('id')
         .insert({
-          title: `Student title ${ii + 1}`,
+          firstName: `Student firstName ${ii + 1}`,
           content: `Student content ${ii + 1}`
         });
 
@@ -18,7 +18,7 @@ export async function seed(knex, Promise) {
             .returning('id')
             .insert({
               student_id: student[0],
-              content: `Journal title ${jj + 1} for student ${student[0]}`
+              content: `Journal firstName ${jj + 1} for student ${student[0]}`
             });
         })
       );

@@ -86,7 +86,7 @@ export default class StudentJournalsView extends React.PureComponent {
 
     return (
       <View>
-        <Text style={styles.title}>Journals</Text>
+        <Text style={styles.firstName}>Journals</Text>
         <StudentJournalForm
           studentId={studentId}
           onSubmit={this.onSubmit(journal, studentId, addJournal, editJournal, onJournalSelect)}
@@ -103,7 +103,7 @@ export default class StudentJournalsView extends React.PureComponent {
 }
 
 const styles = StyleSheet.create({
-  title: {
+  firstName: {
     fontSize: 20,
     fontWeight: '600',
     textAlign: 'center',

@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
-import { Link } from 'react-router-dom';
-import { PageLayout, Table, Button } from '../../common/components/web';
-import settings from '../../../../../../settings';
+import React from "react";
+import PropTypes from "prop-types";
+import Helmet from "react-helmet";
+import { Link } from "react-router-dom";
+import { PageLayout, Table, Button } from "../../common/components/web";
+import settings from "../../../../../../settings";
 
 export default class StudentList extends React.PureComponent {
   static propTypes = {
@@ -30,10 +30,10 @@ export default class StudentList extends React.PureComponent {
 
   renderMetaData = () => (
     <Helmet
-      title={`${settings.app.name} - Students list`}
+      firstName={`${settings.app.name} - Students list`}
       meta={[
         {
-          name: 'description',
+          name: "description",
           content: `${settings.app.name} - List of all students example page`
         }
       ]}
@@ -52,9 +52,9 @@ export default class StudentList extends React.PureComponent {
     } else {
       const columns = [
         {
-          title: 'Title',
-          dataIndex: 'title',
-          key: 'title',
+          title: "FirstName",
+          dataIndex: "firstName",
+          key: "firstName",
           render: (text, record) => (
             <Link className="student-link" to={`/student/${record.id}`}>
               {text}
@@ -62,8 +62,8 @@ export default class StudentList extends React.PureComponent {
           )
         },
         {
-          title: 'Actions',
-          key: 'actions',
+          title: "Actions",
+          key: "actions",
           width: 50,
           render: (text, record) => (
             <Button
@@ -85,7 +85,10 @@ export default class StudentList extends React.PureComponent {
             <Button color="primary">Add</Button>
           </Link>
           <h1 />
-          <Table dataSource={students.edges.map(({ node }) => node)} columns={columns} />
+          <Table
+            dataSource={students.edges.map(({ node }) => node)}
+            columns={columns}
+          />
           <div>
             <small>
               ({students.edges.length} / {students.totalCount})

@@ -10,9 +10,9 @@ import settings from '../../../../../../settings';
 
 const onSubmit = (student, addStudent, editStudent) => values => {
   if (student) {
-    editStudent(student.id, values.title, values.content);
+    editStudent(student.id, values.firstName, values.content);
   } else {
-    addStudent(values.title, values.content);
+    addStudent(values.firstName, values.content);
   }
 };
 
@@ -25,7 +25,7 @@ const StudentEditView = ({ loading, student, match, location, subscribeToMore, a
 
   const renderMetaData = () => (
     <Helmet
-      title={`${settings.app.name} - Edit student`}
+      firstName={`${settings.app.name} - Edit student`}
       meta={[
         {
           name: 'description',

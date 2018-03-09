@@ -1,5 +1,5 @@
 fragment StudentInfo on Student {
   id
-  title
+  firstName
   content
 }

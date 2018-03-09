@@ -30,7 +30,7 @@ describe('Student and journals example API works', () => {
             cursor: 20,
             node: {
               id: 20,
-              title: 'Student title 20',
+              firstName: 'Student firstName 20',
               content: 'Student content 20',
               __typename: 'Student'
             },
@@ -53,18 +53,18 @@ describe('Student and journals example API works', () => {
     expect(result.data).to.deep.equal({
       student: {
         id: 1,
-        title: 'Student title 1',
+        firstName: 'Student firstName 1',
         content: 'Student content 1',
         __typename: 'Student',
         journals: [
           {
             id: 1,
-            content: 'Journal title 1 for student 1',
+            content: 'Journal firstName 1 for student 1',
             __typename: 'Journal'
           },
           {
             id: 2,
-            content: 'Journal title 2 for student 1',
+            content: 'Journal firstName 2 for student 1',
             __typename: 'Journal'
           }
         ]
@@ -77,7 +77,7 @@ describe('Student and journals example API works', () => {
       mutation: ADD_POST,
       variables: {
         input: {
-          title: 'New student 1',
+          firstName: 'New student 1',
           content: 'New student content 1'
         }
       }
@@ -98,7 +98,7 @@ describe('Student and journals example API works', () => {
                 mutation: 'CREATED',
                 node: {
                   id: 21,
-                  title: 'New student 1',
+                  firstName: 'New student 1',
                   content: 'New student content 1',
                   __typename: 'Student'
                 },
@@ -119,7 +119,7 @@ describe('Student and journals example API works', () => {
       fetchPolicy: 'network-only'
     });
     expect(result.data.students).to.have.property('totalCount', 21);
-    expect(result.data.students).to.have.nested.property('edges[0].node.title', 'New student 1');
+    expect(result.data.students).to.have.nested.property('edges[0].node.firstName', 'New student 1');
     expect(result.data.students).to.have.nested.property('edges[0].node.content', 'New student content 1');
   });
 
@@ -129,7 +129,7 @@ describe('Student and journals example API works', () => {
       variables: {
         input: {
           id: 21,
-          title: 'New student 2',
+          firstName: 'New student 2',
           content: 'New student content 2'
         }
       }
@@ -150,7 +150,7 @@ describe('Student and journals example API works', () => {
                 mutation: 'UPDATED',
                 node: {
                   id: 21,
-                  title: 'New student 2',
+                  firstName: 'New student 2',
                   content: 'New student content 2',
                   __typename: 'Student'
                 },
@@ -171,7 +171,7 @@ describe('Student and journals example API works', () => {
       fetchPolicy: 'network-only'
     });
     expect(result.data.students).to.have.property('totalCount', 21);
-    expect(result.data.students).to.have.nested.property('edges[0].node.title', 'New student 2');
+    expect(result.data.students).to.have.nested.property('edges[0].node.firstName', 'New student 2');
     expect(result.data.students).to.have.nested.property('edges[0].node.content', 'New student content 2');
   });
 
@@ -196,7 +196,7 @@ describe('Student and journals example API works', () => {
                 mutation: 'DELETED',
                 node: {
                   id: 21,
-                  title: 'New student 2',
+                  firstName: 'New student 2',
                   content: 'New student content 2',
                   __typename: 'Student'
                 },
@@ -217,7 +217,7 @@ describe('Student and journals example API works', () => {
       fetchPolicy: 'network-only'
     });
     expect(result.data.students).to.have.property('totalCount', 20);
-    expect(result.data.students).to.have.nested.property('edges[0].node.title', 'Student title 20');
+    expect(result.data.students).to.have.nested.property('edges[0].node.firstName', 'Student firstName 20');
     expect(result.data.students).to.have.nested.property('edges[0].node.content', 'Student content 20');
   });
 });

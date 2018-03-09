@@ -9,7 +9,7 @@ import JOURNAL_SUBSCRIPTION from '../graphql/JournalSubscription.graphql';
 
 const createNode = id => ({
   id: `${id}`,
-  title: `Student title ${id}`,
+  firstName: `Student firstName ${id}`,
   content: `Student content ${id}`,
   journals: [
     { id: id * 1000 + 1, content: 'Student journal 1', __typename: 'Journal' },
@@ -82,8 +82,8 @@ describe('Students and journals example UI works', () => {
   });
 
   step('Students page renders with data', () => {
-    expect(content.text()).to.include('Student title 1');
-    expect(content.text()).to.include('Student title 2');
+    expect(content.text()).to.include('Student firstName 1');
+    expect(content.text()).to.include('Student firstName 2');
     expect(content.text()).to.include('2 / 4');
   });
 
@@ -93,8 +93,8 @@ describe('Students and journals example UI works', () => {
   });
 
   step('Clicking load more loads more students', () => {
-    expect(content.text()).to.include('Student title 3');
-    expect(content.text()).to.include('Student title 4');
+    expect(content.text()).to.include('Student firstName 3');
+    expect(content.text()).to.include('Student firstName 4');
     expect(content.text()).to.include('4 / 4');
   });
 
@@ -114,7 +114,7 @@ describe('Students and journals example UI works', () => {
       }
     });
 
-    expect(content.text()).to.not.include('Student title 2');
+    expect(content.text()).to.not.include('Student firstName 2');
     expect(content.text()).to.include('3 / 3');
   });
 
@@ -132,7 +132,7 @@ describe('Students and journals example UI works', () => {
       })
     );
 
-    expect(content.text()).to.include('Student title 2');
+    expect(content.text()).to.include('Student firstName 2');
     expect(content.text()).to.include('4 / 4');
   });
 
@@ -145,13 +145,13 @@ describe('Students and journals example UI works', () => {
     expect(deleteButtons).has.lengthOf(12);
     deleteButtons.last().simulate('click');
 
-    expect(content.text()).to.not.include('Student title 4');
+    expect(content.text()).to.not.include('Student firstName 4');
     expect(content.text()).to.include('3 / 3');
   });
 
   step('Clicking delete removes the student', () => {
-    expect(content.text()).to.include('Student title 3');
-    expect(content.text()).to.not.include('Student title 4');
+    expect(content.text()).to.include('Student firstName 3');
+    expect(content.text()).to.not.include('Student firstName 4');
     expect(content.text()).to.include('3 / 3');
   });
 
@@ -166,10 +166,10 @@ describe('Students and journals example UI works', () => {
     expect(content.text()).to.include('Edit Student');
     expect(
       studentForm
-        .find('[name="title"]')
+        .find('[name="firstName"]')
         .last()
         .instance().value
-    ).to.equal('Student title 3');
+    ).to.equal('Student firstName 3');
     expect(
       studentForm
         .find('[name="content"]')
@@ -188,7 +188,7 @@ describe('Students and journals example UI works', () => {
       data: {
         studentUpdated: {
           id: '3',
-          title: 'Student title 203',
+          firstName: 'Student firstName 203',
           content: 'Student content 204',
           __typename: 'Student'
         }
@@ -197,10 +197,10 @@ describe('Students and journals example UI works', () => {
     const studentForm = content.find('form[name="student"]');
     expect(
       studentForm
-        .find('[name="title"]')
+        .find('[name="firstName"]')
         .last()
         .instance().value
-    ).to.equal('Student title 203');
+    ).to.equal('Student firstName 203');
     expect(
       studentForm
         .find('[name="content"]')
@@ -212,7 +212,7 @@ describe('Students and journals example UI works', () => {
   step('Student editing form works', done => {
     mutations.editStudent = (obj, { input }) => {
       expect(input.id).to.equal(3);
-      expect(input.title).to.equal('Student title 33');
+      expect(input.firstName).to.equal('Student firstName 33');
       expect(input.content).to.equal('Student content 33');
       done();
       return input;
@@ -220,9 +220,9 @@ describe('Students and journals example UI works', () => {
 
     const studentForm = app.find('form[name="student"]').last();
     studentForm
-      .find('[name="title"]')
+      .find('[name="firstName"]')
       .last()
-      .simulate('change', { target: { name: 'title', value: 'Student title 33' } });
+      .simulate('change', { target: { name: 'firstName', value: 'Student firstName 33' } });
     studentForm
       .find('[name="content"]')
       .last()
@@ -240,10 +240,10 @@ describe('Students and journals example UI works', () => {
     expect(content.text()).to.include('Edit Student');
     expect(
       studentForm
-        .find('[name="title"]')
+        .find('[name="firstName"]')
         .last()
         .instance().value
-    ).to.equal('Student title 33');
+    ).to.equal('Student firstName 33');
     expect(
       studentForm
         .find('[name="content"]')
@@ -365,6 +365,6 @@ describe('Students and journals example UI works', () => {
     backButton.last().simulate('click', { button: 0 });
     app.update();
     content = app.find('#content').last();
-    expect(content.text()).to.include('Student title 3');
+    expect(content.text()).to.include('Student firstName 3');
   });
 });
