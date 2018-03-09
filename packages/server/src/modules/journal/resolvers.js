@@ -1,30 +1,30 @@
 import { withFilter } from 'graphql-subscriptions';
 import { createBatchResolver } from 'graphql-resolve-batch';
 
-const POST_SUBSCRIPTION = 'post_subscription';
-const POSTS_SUBSCRIPTION = 'posts_subscription';
-const COMMENT_SUBSCRIPTION = 'comment_subscription';
+const POST_SUBSCRIPTION = 'student_subscription';
+const POSTS_SUBSCRIPTION = 'students_subscription';
+const COMMENT_SUBSCRIPTION = 'journal_subscription';
 
 export default pubsub => ({
   Query: {
-    async posts(obj, { limit, after }, context) {
+    async students(obj, { limit, after }, context) {
       let edgesArray = [];
-      let posts = await context.Post.postsPagination(limit, after);
+      let students = await context.Student.studentsPagination(limit, after);
 
-      posts.map(post => {
+      students.map(student => {
         edgesArray.push({
-          cursor: post.id,
+          cursor: student.id,
           node: {
-            id: post.id,
-            title: post.title,
-            content: post.content
+            id: student.id,
+            title: student.title,
+            content: student.content
           }
         });
       });
 
       const endCursor = edgesArray.length > 0 ? edgesArray[edgesArray.length - 1].cursor : 0;
 
-      const values = await Promise.all([context.Post.getTotal(), context.Post.getNextPageFlag(endCursor)]);
+      const values = await Promise.all([context.Student.getTotal(), context.Student.getNextPageFlag(endCursor)]);
 
       return {
         totalCount: values[0].count,
@@ -35,125 +35,125 @@ export default pubsub => ({
         }
       };
     },
-    post(obj, { id }, context) {
-      return context.Post.post(id);
+    student(obj, { id }, context) {
+      return context.Student.student(id);
     }
   },
-  Post: {
-    comments: createBatchResolver((sources, args, context) => {
-      return context.Post.getCommentsForPostIds(sources.map(({ id }) => id));
+  Student: {
+    journals: createBatchResolver((sources, args, context) => {
+      return context.Student.getJournalsForStudentIds(sources.map(({ id }) => id));
     })
   },
   Mutation: {
-    async addPost(obj, { input }, context) {
-      const [id] = await context.Post.addPost(input);
-      const post = await context.Post.post(id);
-      // publish for post list
+    async addStudent(obj, { input }, context) {
+      const [id] = await context.Student.addStudent(input);
+      const student = await context.Student.student(id);
+      // publish for student list
       pubsub.publish(POSTS_SUBSCRIPTION, {
-        postsUpdated: {
+        studentsUpdated: {
           mutation: 'CREATED',
           id,
-          node: post
+          node: student
         }
       });
-      return post;
+      return student;
     },
-    async deletePost(obj, { id }, context) {
-      const post = await context.Post.post(id);
-      const isDeleted = await context.Post.deletePost(id);
+    async deleteStudent(obj, { id }, context) {
+      const student = await context.Student.student(id);
+      const isDeleted = await context.Student.deleteStudent(id);
       if (isDeleted) {
-        // publish for post list
+        // publish for student list
         pubsub.publish(POSTS_SUBSCRIPTION, {
-          postsUpdated: {
+          studentsUpdated: {
             mutation: 'DELETED',
             id,
-            node: post
+            node: student
           }
         });
-        return { id: post.id };
+        return { id: student.id };
       } else {
         return { id: null };
       }
     },
-    async editPost(obj, { input }, context) {
-      await context.Post.editPost(input);
-      const post = await context.Post.post(input.id);
-      // publish for post list
+    async editStudent(obj, { input }, context) {
+      await context.Student.editStudent(input);
+      const student = await context.Student.student(input.id);
+      // publish for student list
       pubsub.publish(POSTS_SUBSCRIPTION, {
-        postsUpdated: {
+        studentsUpdated: {
           mutation: 'UPDATED',
-          id: post.id,
-          node: post
+          id: student.id,
+          node: student
         }
       });
-      // publish for edit post page
-      pubsub.publish(POST_SUBSCRIPTION, { postUpdated: post });
-      return post;
+      // publish for edit student page
+      pubsub.publish(POST_SUBSCRIPTION, { studentUpdated: student });
+      return student;
     },
-    async addComment(obj, { input }, context) {
-      const [id] = await context.Post.addComment(input);
-      const comment = await context.Post.getComment(id);
-      // publish for edit post page
+    async addJournal(obj, { input }, context) {
+      const [id] = await context.Student.addJournal(input);
+      const journal = await context.Student.getJournal(id);
+      // publish for edit student page
       pubsub.publish(COMMENT_SUBSCRIPTION, {
-        commentUpdated: {
+        journalUpdated: {
           mutation: 'CREATED',
-          id: comment.id,
-          postId: input.postId,
-          node: comment
+          id: journal.id,
+          studentId: input.studentId,
+          node: journal
         }
       });
-      return comment;
+      return journal;
     },
-    async deleteComment(obj, { input: { id, postId } }, context) {
-      await context.Post.deleteComment(id);
-      // publish for edit post page
+    async deleteJournal(obj, { input: { id, studentId } }, context) {
+      await context.Student.deleteJournal(id);
+      // publish for edit student page
       pubsub.publish(COMMENT_SUBSCRIPTION, {
-        commentUpdated: {
+        journalUpdated: {
           mutation: 'DELETED',
           id,
-          postId,
+          studentId,
           node: null
         }
       });
       return { id };
     },
-    async editComment(obj, { input }, context) {
-      await context.Post.editComment(input);
-      const comment = await context.Post.getComment(input.id);
-      // publish for edit post page
+    async editJournal(obj, { input }, context) {
+      await context.Student.editJournal(input);
+      const journal = await context.Student.getJournal(input.id);
+      // publish for edit student page
       pubsub.publish(COMMENT_SUBSCRIPTION, {
-        commentUpdated: {
+        journalUpdated: {
           mutation: 'UPDATED',
           id: input.id,
-          postId: input.postId,
-          node: comment
+          studentId: input.studentId,
+          node: journal
         }
       });
-      return comment;
+      return journal;
     }
   },
   Subscription: {
-    postUpdated: {
+    studentUpdated: {
       subscribe: withFilter(
         () => pubsub.asyncIterator(POST_SUBSCRIPTION),
         (payload, variables) => {
-          return payload.postUpdated.id === variables.id;
+          return payload.studentUpdated.id === variables.id;
         }
       )
     },
-    postsUpdated: {
+    studentsUpdated: {
       subscribe: withFilter(
         () => pubsub.asyncIterator(POSTS_SUBSCRIPTION),
         (payload, variables) => {
-          return variables.endCursor <= payload.postsUpdated.id;
+          return variables.endCursor <= payload.studentsUpdated.id;
         }
       )
     },
-    commentUpdated: {
+    journalUpdated: {
       subscribe: withFilter(
         () => pubsub.asyncIterator(COMMENT_SUBSCRIPTION),
         (payload, variables) => {
-          return payload.commentUpdated.postId === variables.postId;
+          return payload.journalUpdated.studentId === variables.studentId;
         }
       )
     }

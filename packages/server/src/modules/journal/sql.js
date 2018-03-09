@@ -1,8 +1,8 @@
 import { orderedFor } from '../../sql/helpers';
 import knex from '../../sql/connector';
 
-export default class Post {
-  postsPagination(limit, after) {
+export default class Student {
+  studentsPagination(limit, after) {
     let where = '';
     if (after > 0) {
       where = `id < ${after}`;
@@ -10,56 +10,56 @@ export default class Post {
 
     return knex
       .select('id', 'title', 'content')
-      .from('post')
+      .from('student')
       .whereRaw(where)
       .orderBy('id', 'desc')
       .limit(limit);
   }
 
-  async getCommentsForPostIds(postIds) {
+  async getJournalsForStudentIds(studentIds) {
     const res = await knex
-      .select('id', 'content', 'post_id AS postId')
-      .from('comment')
-      .whereIn('post_id', postIds);
+      .select('id', 'content', 'student_id AS studentId')
+      .from('journal')
+      .whereIn('student_id', studentIds);
 
-    return orderedFor(res, postIds, 'postId', false);
+    return orderedFor(res, studentIds, 'studentId', false);
   }
 
   getTotal() {
-    return knex('post')
+    return knex('student')
       .countDistinct('id as count')
       .first();
   }
 
   getNextPageFlag(id) {
-    return knex('post')
+    return knex('student')
       .countDistinct('id as count')
       .where('id', '<', id)
       .first();
   }
 
-  post(id) {
+  student(id) {
     return knex
       .select('id', 'title', 'content')
-      .from('post')
+      .from('student')
       .where('id', '=', id)
       .first();
   }
 
-  addPost({ title, content }) {
-    return knex('post')
+  addStudent({ title, content }) {
+    return knex('student')
       .insert({ title, content })
       .returning('id');
   }
 
-  deletePost(id) {
-    return knex('post')
+  deleteStudent(id) {
+    return knex('student')
       .where('id', '=', id)
       .del();
   }
 
-  editPost({ id, title, content }) {
-    return knex('post')
+  editStudent({ id, title, content }) {
+    return knex('student')
       .where('id', '=', id)
       .update({
         title: title,
@@ -67,28 +67,28 @@ export default class Post {
       });
   }
 
-  addComment({ content, postId }) {
-    return knex('comment')
-      .insert({ content, post_id: postId })
+  addJournal({ content, studentId }) {
+    return knex('journal')
+      .insert({ content, student_id: studentId })
       .returning('id');
   }
 
-  getComment(id) {
+  getJournal(id) {
     return knex
       .select('id', 'content')
-      .from('comment')
+      .from('journal')
       .where('id', '=', id)
       .first();
   }
 
-  deleteComment(id) {
-    return knex('comment')
+  deleteJournal(id) {
+    return knex('journal')
       .where('id', '=', id)
       .del();
   }
 
-  editComment({ id, content }) {
-    return knex('comment')
+  editJournal({ id, content }) {
+    return knex('journal')
       .where('id', '=', id)
       .update({
         content: content
