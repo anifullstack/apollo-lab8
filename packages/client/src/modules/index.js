@@ -1,3 +1,4 @@
+import journal from './journal';
 import defaultRouter from './defaultRouter';
 import counter from './counter';
 import post from './post';
@@ -10,4 +11,4 @@ import './favicon';
 
 import Feature from './connector';
 
-export default new Feature(defaultRouter, counter, post, upload, user, subscription, contact, pageNotFound);
+export default new Feature(journal, defaultRouter, counter, post, upload, user, subscription, contact, pageNotFound);
