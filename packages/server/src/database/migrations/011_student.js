@@ -3,7 +3,8 @@ exports.up = function(knex, Promise) {
     knex.schema
       .createTable("student", table => {
         table.increments();
-        table.string("firstName");
+        table.string("firstName")
+ 	 	 	 	table.string("lastName");
         table.string("content");
         table.timestamps(false, true);
       })
