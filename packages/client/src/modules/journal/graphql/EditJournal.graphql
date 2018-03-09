@@ -1,0 +1,7 @@
+#import "./Journal.graphql"
+
+mutation editJournal($input: EditJournalInput!) {
+  editJournal(input: $input) {
+    ... JournalInfo
+  }
+}

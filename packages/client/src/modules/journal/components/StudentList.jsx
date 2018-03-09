@@ -5,12 +5,12 @@ import { FontAwesome } from '@expo/vector-icons';
 import { StyleSheet, FlatList, Text, View, Platform, TouchableOpacity } from 'react-native';
 import { SwipeAction } from '../../common/components/native';
 
-export default class PostList extends React.PureComponent {
+export default class StudentList extends React.PureComponent {
   static propTypes = {
     loading: PropTypes.bool.isRequired,
-    posts: PropTypes.object,
+    students: PropTypes.object,
     navigation: PropTypes.object,
-    deletePost: PropTypes.func.isRequired,
+    deleteStudent: PropTypes.func.isRequired,
     loadMoreRows: PropTypes.func.isRequired
   };
 
@@ -19,13 +19,13 @@ export default class PostList extends React.PureComponent {
   keyExtractor = item => item.node.id;
 
   renderItemIOS = ({ item: { node: { id, title } } }) => {
-    const { deletePost, navigation } = this.props;
+    const { deleteStudent, navigation } = this.props;
     return (
       <SwipeAction
-        onPress={() => navigation.navigate('PostEdit', { id })}
+        onPress={() => navigation.navigate('StudentEdit', { id })}
         right={{
           text: 'Delete',
-          onPress: () => deletePost(id)
+          onPress: () => deleteStudent(id)
         }}
       >
         {title}
@@ -34,11 +34,11 @@ export default class PostList extends React.PureComponent {
   };
 
   renderItemAndroid = ({ item: { node: { id, title } } }) => {
-    const { deletePost, navigation } = this.props;
+    const { deleteStudent, navigation } = this.props;
     return (
-      <TouchableOpacity style={styles.postWrapper} onPress={() => navigation.navigate('PostEdit', { id })}>
+      <TouchableOpacity style={styles.studentWrapper} onPress={() => navigation.navigate('StudentEdit', { id })}>
         <Text style={styles.text}>{title}</Text>
-        <TouchableOpacity style={styles.iconWrapper} onPress={() => deletePost(id)}>
+        <TouchableOpacity style={styles.iconWrapper} onPress={() => deleteStudent(id)}>
           <FontAwesome name="trash" size={20} style={{ color: '#3B5998' }} />
         </TouchableOpacity>
       </TouchableOpacity>
@@ -46,7 +46,7 @@ export default class PostList extends React.PureComponent {
   };
 
   render() {
-    const { loading, posts, loadMoreRows } = this.props;
+    const { loading, students, loadMoreRows } = this.props;
     const renderItem = Platform.OS === 'android' ? this.renderItemAndroid : this.renderItemIOS;
     if (loading) {
       return (
@@ -57,7 +57,7 @@ export default class PostList extends React.PureComponent {
     } else {
       return (
         <FlatList
-          data={posts.edges}
+          data={students.edges}
           style={{ marginTop: 5 }}
           keyExtractor={this.keyExtractor}
           renderItem={renderItem}
@@ -67,7 +67,7 @@ export default class PostList extends React.PureComponent {
           }}
           onEndReached={() => {
             if (!this.onEndReachedCalledDuringMomentum) {
-              if (posts.pageInfo.hasNextPage) {
+              if (students.pageInfo.hasNextPage) {
                 this.onEndReachedCalledDuringMomentum = true;
                 return loadMoreRows();
               }
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row'
   },
-  postWrapper: {
+  studentWrapper: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',

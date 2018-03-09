@@ -1,0 +1,4 @@
+fragment JournalInfo on Journal {
+  id
+  content
+}

@@ -5,16 +5,16 @@ import Field from '../../../utils/FieldAdapter';
 import { Form, RenderField, Button } from '../../common/components/web';
 import { required, validateForm } from '../../../../../common/validation';
 
-const postFormSchema = {
+const studentFormSchema = {
   title: [required],
   content: [required]
 };
 
-const validate = values => validateForm(values, postFormSchema);
+const validate = values => validateForm(values, studentFormSchema);
 
-const PostForm = ({ values, handleSubmit, submitting }) => {
+const StudentForm = ({ values, handleSubmit, submitting }) => {
   return (
-    <Form name="post" onSubmit={handleSubmit}>
+    <Form name="student" onSubmit={handleSubmit}>
       <Field name="title" component={RenderField} type="text" label="Title" value={values.title} />
       <Field name="content" component={RenderField} type="text" label="Content" value={values.content} />
       <Button color="primary" type="submit" disabled={submitting}>
@@ -24,25 +24,25 @@ const PostForm = ({ values, handleSubmit, submitting }) => {
   );
 };
 
-PostForm.propTypes = {
+StudentForm.propTypes = {
   handleSubmit: PropTypes.func,
   onSubmit: PropTypes.func,
   submitting: PropTypes.bool,
   values: PropTypes.object,
-  post: PropTypes.object
+  student: PropTypes.object
 };
 
-const PostFormWithFormik = withFormik({
+const StudentFormWithFormik = withFormik({
   mapPropsToValues: props => ({
-    title: props.post && props.post.title,
-    content: props.post && props.post.content
+    title: props.student && props.student.title,
+    content: props.student && props.student.content
   }),
   validate: values => validate(values),
   handleSubmit(values, { props: { onSubmit } }) {
     onSubmit(values);
   },
   enableReinitialize: true,
-  displayName: 'PostForm' // helps with React DevTools
+  displayName: 'StudentForm' // helps with React DevTools
 });
 
-export default PostFormWithFormik(PostForm);
+export default StudentFormWithFormik(StudentForm);

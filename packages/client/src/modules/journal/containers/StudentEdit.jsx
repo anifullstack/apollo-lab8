@@ -2,18 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql, compose } from 'react-apollo';
 
-import PostEditView from '../components/PostEditView';
-import { AddPost } from './Post';
+import StudentEditView from '../components/StudentEditView';
+import { AddStudent } from './Student';
 
-import POST_QUERY from '../graphql/PostQuery.graphql';
-import ADD_POST from '../graphql/AddPost.graphql';
-import EDIT_POST from '../graphql/EditPost.graphql';
-import POST_SUBSCRIPTION from '../graphql/PostSubscription.graphql';
+import STUDENT_QUERY from '../graphql/StudentQuery.graphql';
+import ADD_STUDENT from '../graphql/AddStudent.graphql';
+import EDIT_STUDENT from '../graphql/EditStudent.graphql';
+import STUDENT_SUBSCRIPTION from '../graphql/StudentSubscription.graphql';
 
-class PostEdit extends React.Component {
+class StudentEdit extends React.Component {
   static propTypes = {
     loading: PropTypes.bool.isRequired,
-    post: PropTypes.object,
+    student: PropTypes.object,
     subscribeToMore: PropTypes.func.isRequired
   };
 
@@ -25,14 +25,14 @@ class PostEdit extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (!nextProps.loading) {
       // Check if props have changed and, if necessary, stop the subscription
-      if (this.subscription && this.props.post.id !== nextProps.post.id) {
+      if (this.subscription && this.props.student.id !== nextProps.student.id) {
         this.subscription();
         this.subscription = null;
       }
 
       // Subscribe or re-subscribe
-      if (!this.subscription && nextProps.post) {
-        this.subscribeToPostEdit(nextProps.post.id);
+      if (!this.subscription && nextProps.student) {
+        this.subscribeToStudentEdit(nextProps.student.id);
       }
     }
   }
@@ -44,22 +44,22 @@ class PostEdit extends React.Component {
     }
   }
 
-  subscribeToPostEdit = postId => {
+  subscribeToStudentEdit = studentId => {
     const { subscribeToMore } = this.props;
 
     this.subscription = subscribeToMore({
-      document: POST_SUBSCRIPTION,
-      variables: { id: postId }
+      document: STUDENT_SUBSCRIPTION,
+      variables: { id: studentId }
     });
   };
 
   render() {
-    return <PostEditView {...this.props} />;
+    return <StudentEditView {...this.props} />;
   }
 }
 
 export default compose(
-  graphql(POST_QUERY, {
+  graphql(STUDENT_QUERY, {
     options: props => {
       let id = 0;
       if (props.match) {
@@ -72,54 +72,54 @@ export default compose(
         variables: { id }
       };
     },
-    props({ data: { loading, error, post, subscribeToMore } }) {
+    props({ data: { loading, error, student, subscribeToMore } }) {
       if (error) throw new Error(error);
-      return { loading, post, subscribeToMore };
+      return { loading, student, subscribeToMore };
     }
   }),
-  graphql(ADD_POST, {
+  graphql(ADD_STUDENT, {
     props: ({ ownProps: { history, navigation }, mutate }) => ({
-      addPost: async (title, content) => {
-        let postData = await mutate({
+      addStudent: async (title, content) => {
+        let studentData = await mutate({
           variables: { input: { title, content } },
           optimisticResponse: {
             __typename: 'Mutation',
-            addPost: {
-              __typename: 'Post',
+            addStudent: {
+              __typename: 'Student',
               id: null,
               title: title,
               content: content,
-              comments: []
+              journals: []
             }
           },
           updateQueries: {
-            posts: (prev, { mutationResult: { data: { addPost } } }) => {
-              return AddPost(prev, addPost);
+            students: (prev, { mutationResult: { data: { addStudent } } }) => {
+              return AddStudent(prev, addStudent);
             }
           }
         });
 
         if (history) {
-          return history.push('/post/' + postData.data.addPost.id, {
-            post: postData.data.addPost
+          return history.push('/student/' + studentData.data.addStudent.id, {
+            student: studentData.data.addStudent
           });
         } else if (navigation) {
           return navigation.setParams({
-            id: postData.data.addPost.id,
-            post: postData.data.addPost
+            id: studentData.data.addStudent.id,
+            student: studentData.data.addStudent
           });
         }
       }
     })
   }),
-  graphql(EDIT_POST, {
+  graphql(EDIT_STUDENT, {
     props: ({ ownProps: { history, navigation }, mutate }) => ({
-      editPost: async (id, title, content) => {
+      editStudent: async (id, title, content) => {
         await mutate({
           variables: { input: { id, title, content } }
         });
         if (history) {
-          return history.push('/posts');
+          return history.push('/students');
         }
         if (navigation) {
           return navigation.goBack();
@@ -127,4 +127,4 @@ export default compose(
       }
     })
   })
-)(PostEdit);
+)(StudentEdit);

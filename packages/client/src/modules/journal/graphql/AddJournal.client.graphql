@@ -1,0 +1,5 @@
+#import "./Journal.graphql"
+
+mutation addJournalClient($journal: JournalInfo!) {
+    onJournalSelect(journal: $journal) @client
+}

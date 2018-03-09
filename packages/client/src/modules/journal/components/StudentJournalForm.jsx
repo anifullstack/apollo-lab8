@@ -5,45 +5,45 @@ import Field from '../../../utils/FieldAdapter';
 import { FormView, RenderField, FormButton } from '../../common/components/native';
 import { required, validateForm } from '../../../../../common/validation';
 
-const commentFormSchema = {
+const journalFormSchema = {
   content: [required]
 };
 
-const validate = values => validateForm(values, commentFormSchema);
+const validate = values => validateForm(values, journalFormSchema);
 
-const PostCommentForm = ({ values, handleSubmit, comment }) => {
+const StudentJournalForm = ({ values, handleSubmit, journal }) => {
   let operation = 'Add';
-  if (comment.id !== null) {
+  if (journal.id !== null) {
     operation = 'Edit';
   }
 
   return (
     <FormView>
-      <Field name="content" component={RenderField} type="text" value={values.content} placeholder="Comment" />
+      <Field name="content" component={RenderField} type="text" value={values.content} placeholder="Journal" />
       <FormButton onPress={handleSubmit}>{operation}</FormButton>
     </FormView>
   );
 };
 
-PostCommentForm.propTypes = {
+StudentJournalForm.propTypes = {
   handleSubmit: PropTypes.func,
   setFieldValue: PropTypes.func,
   setFieldTouched: PropTypes.func,
-  comment: PropTypes.object,
+  journal: PropTypes.object,
   onSubmit: PropTypes.func,
   submitting: PropTypes.bool,
   values: PropTypes.object
 };
 
-const PostCommentFormWithFormik = withFormik({
-  mapPropsToValues: props => ({ content: props.comment && props.comment.content }),
+const StudentJournalFormWithFormik = withFormik({
+  mapPropsToValues: props => ({ content: props.journal && props.journal.content }),
   validate: values => validate(values),
   handleSubmit: async (values, { resetForm, props: { onSubmit } }) => {
     await onSubmit(values);
     resetForm({ content: '' });
   },
-  displayName: 'CommentForm', // helps with React DevTools
+  displayName: 'JournalForm', // helps with React DevTools
   enableReinitialize: true
 });
 
-export default PostCommentFormWithFormik(PostCommentForm);
+export default StudentJournalFormWithFormik(StudentJournalForm);

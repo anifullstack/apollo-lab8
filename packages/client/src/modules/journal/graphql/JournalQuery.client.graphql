@@ -1,0 +1,6 @@
+#import "./Journal.graphql"
+query journalState {
+    journal @client {
+        ...JournalInfo
+    }
+}

@@ -13,30 +13,30 @@ import {
 import { FontAwesome } from '@expo/vector-icons';
 import { SwipeAction } from '../../common/components/native';
 
-import PostCommentForm from './PostCommentForm';
+import StudentJournalForm from './StudentJournalForm';
 
-export default class PostCommentsView extends React.PureComponent {
+export default class StudentJournalsView extends React.PureComponent {
   static propTypes = {
-    postId: PropTypes.number.isRequired,
-    comments: PropTypes.array.isRequired,
-    comment: PropTypes.object,
-    addComment: PropTypes.func.isRequired,
-    editComment: PropTypes.func.isRequired,
-    deleteComment: PropTypes.func.isRequired,
+    studentId: PropTypes.number.isRequired,
+    journals: PropTypes.array.isRequired,
+    journal: PropTypes.object,
+    addJournal: PropTypes.func.isRequired,
+    editJournal: PropTypes.func.isRequired,
+    deleteJournal: PropTypes.func.isRequired,
     subscribeToMore: PropTypes.func.isRequired,
-    onCommentSelect: PropTypes.func.isRequired
+    onJournalSelect: PropTypes.func.isRequired
   };
 
   keyExtractor = item => item.id;
 
   renderItemIOS = ({ item: { id, content } }) => {
-    const { comment, deleteComment, onCommentSelect } = this.props;
+    const { journal, deleteJournal, onJournalSelect } = this.props;
     return (
       <SwipeAction
-        onPress={() => onCommentSelect({ id: id, content: content })}
+        onPress={() => onJournalSelect({ id: id, content: content })}
         right={{
           text: 'Delete',
-          onPress: () => this.onCommentDelete(comment, deleteComment, onCommentSelect, id)
+          onPress: () => this.onJournalDelete(journal, deleteJournal, onJournalSelect, id)
         }}
       >
         {content}
@@ -45,14 +45,14 @@ export default class PostCommentsView extends React.PureComponent {
   };
 
   renderItemAndroid = ({ item: { id, content } }) => {
-    const { deleteComment, onCommentSelect, comment } = this.props;
+    const { deleteJournal, onJournalSelect, journal } = this.props;
     return (
-      <TouchableWithoutFeedback onPress={() => onCommentSelect({ id: id, content: content })}>
-        <View style={styles.postWrapper}>
+      <TouchableWithoutFeedback onPress={() => onJournalSelect({ id: id, content: content })}>
+        <View style={styles.studentWrapper}>
           <Text style={styles.text}>{content}</Text>
           <TouchableOpacity
             style={styles.iconWrapper}
-            onPress={() => this.onCommentDelete(comment, deleteComment, onCommentSelect, id)}
+            onPress={() => this.onJournalDelete(journal, deleteJournal, onJournalSelect, id)}
           >
             <FontAwesome name="trash" size={20} style={{ color: '#3B5998' }} />
           </TouchableOpacity>
@@ -61,40 +61,40 @@ export default class PostCommentsView extends React.PureComponent {
     );
   };
 
-  onCommentDelete = (comment, deleteComment, onCommentSelect, id) => {
-    if (comment.id === id) {
-      onCommentSelect({ id: null, content: '' });
+  onJournalDelete = (journal, deleteJournal, onJournalSelect, id) => {
+    if (journal.id === id) {
+      onJournalSelect({ id: null, content: '' });
     }
 
-    deleteComment(id);
+    deleteJournal(id);
   };
 
-  onSubmit = (comment, postId, addComment, editComment, onCommentSelect) => values => {
-    if (comment.id === null) {
-      addComment(values.content, postId);
+  onSubmit = (journal, studentId, addJournal, editJournal, onJournalSelect) => values => {
+    if (journal.id === null) {
+      addJournal(values.content, studentId);
     } else {
-      editComment(comment.id, values.content);
+      editJournal(journal.id, values.content);
     }
 
-    onCommentSelect({ id: null, content: '' });
+    onJournalSelect({ id: null, content: '' });
     Keyboard.dismiss();
   };
 
   render() {
-    const { postId, comment, addComment, editComment, comments, onCommentSelect } = this.props;
+    const { studentId, journal, addJournal, editJournal, journals, onJournalSelect } = this.props;
     const renderItem = Platform.OS === 'android' ? this.renderItemAndroid : this.renderItemIOS;
 
     return (
       <View>
-        <Text style={styles.title}>Comments</Text>
-        <PostCommentForm
-          postId={postId}
-          onSubmit={this.onSubmit(comment, postId, addComment, editComment, onCommentSelect)}
-          comment={comment}
+        <Text style={styles.title}>Journals</Text>
+        <StudentJournalForm
+          studentId={studentId}
+          onSubmit={this.onSubmit(journal, studentId, addJournal, editJournal, onJournalSelect)}
+          journal={journal}
         />
-        {comments.length > 0 && (
+        {journals.length > 0 && (
           <View style={styles.list} keyboardDismissMode="on-drag">
-            <FlatList data={comments} keyExtractor={this.keyExtractor} renderItem={renderItem} />
+            <FlatList data={journals} keyExtractor={this.keyExtractor} renderItem={renderItem} />
           </View>
         )}
       </View>
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row'
   },
-  postWrapper: {
+  studentWrapper: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',

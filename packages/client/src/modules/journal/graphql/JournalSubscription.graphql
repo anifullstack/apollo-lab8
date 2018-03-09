@@ -1,0 +1,12 @@
+#import "./Journal.graphql"
+
+subscription onJournalUpdated($studentId: Int!) {
+  journalUpdated(studentId: $studentId) {
+    mutation
+    id
+    studentId
+    node {
+      ... JournalInfo
+    }
+  }
+}

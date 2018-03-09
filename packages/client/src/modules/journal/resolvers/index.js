@@ -1,37 +1,37 @@
-import COMMENT_QUERY_CLIENT from '../graphql/CommentQuery.client.graphql';
+import JOURNAL_QUERY_CLIENT from '../graphql/JournalQuery.client.graphql';
 
-const TYPE_NAME = 'CommentState';
-const TYPE_NAME_COMMENT = 'Comment';
+const TYPE_NAME = 'JournalState';
+const TYPE_NAME_JOURNAL = 'Journal';
 
 const defaults = {
-  comment: {
+  journal: {
     id: null,
     content: '',
-    __typename: TYPE_NAME_COMMENT
+    __typename: TYPE_NAME_JOURNAL
   },
   __typename: TYPE_NAME
 };
 
 const resolvers = {
   Query: {
-    commentState: (_, args, { cache }) => {
-      const { comment: { comment } } = cache.readQuery({ query: COMMENT_QUERY_CLIENT });
+    journalState: (_, args, { cache }) => {
+      const { journal: { journal } } = cache.readQuery({ query: JOURNAL_QUERY_CLIENT });
       return {
-        comment: {
-          ...comment,
-          __typename: TYPE_NAME_COMMENT
+        journal: {
+          ...journal,
+          __typename: TYPE_NAME_JOURNAL
         },
         __typename: TYPE_NAME
       };
     }
   },
   Mutation: {
-    onCommentSelect: async (_, { comment }, { cache }) => {
+    onJournalSelect: async (_, { journal }, { cache }) => {
       await cache.writeData({
         data: {
-          comment: {
-            ...comment,
-            __typename: TYPE_NAME_COMMENT
+          journal: {
+            ...journal,
+            __typename: TYPE_NAME_JOURNAL
           },
           __typename: TYPE_NAME
         }

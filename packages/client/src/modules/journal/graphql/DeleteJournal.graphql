@@ -1,0 +1,5 @@
+mutation deleteJournal($input: DeleteJournalInput!) {
+  deleteJournal(input: $input) {
+    id
+  }
+}
