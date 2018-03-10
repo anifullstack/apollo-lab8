@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 import { Link } from "react-router-dom";
 import { PageLayout, Table, Button } from "../../common/components/web";
-import settings from "../../../../../../settings";
+import moment from "moment";
 
+import settings from "../../../../../../settings";
 export default class StudentList extends React.PureComponent {
   static propTypes = {
     loading: PropTypes.bool.isRequired,
@@ -30,7 +31,7 @@ export default class StudentList extends React.PureComponent {
 
   renderMetaData = () => (
     <Helmet
-      firstName={`${settings.app.name} - Students list`}
+      title={`${settings.app.name} - Students list`}
       meta={[
         {
           name: "description",
@@ -68,6 +69,16 @@ export default class StudentList extends React.PureComponent {
           render: (text, record) => (
             <Link className="student-link" to={`/student/${record.id}`}>
               {text}
+            </Link>
+          )
+        },
+        {
+          title: "BirthDate",
+          dataIndex: "birthDate",
+          key: "birthDate",
+          render: (text, record) => (
+            <Link className="student-link" to={`/student/${record.id}`}>
+              {moment(parseInt(text)).format("MM/DD/YYYY")}
             </Link>
           )
         },

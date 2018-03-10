@@ -10,9 +10,9 @@ import settings from "../../../../../../settings";
 
 const onSubmit = (student, addStudent, editStudent) => values => {
   if (student) {
-    editStudent(student.id, values.firstName, values.lastName, values.content);
+    editStudent(student.id, values.firstName, values.lastName, values.birthDate, values.content);
   } else {
-    addStudent(values.firstName, values.lastName, values.content);
+    addStudent(values.firstName, values.lastName, values.birthDate, values.content);
   }
 };
 
