@@ -1,9 +1,9 @@
-import { withFilter } from 'graphql-subscriptions';
-import { createBatchResolver } from 'graphql-resolve-batch';
+import { withFilter } from "graphql-subscriptions";
+import { createBatchResolver } from "graphql-resolve-batch";
 
-const POST_SUBSCRIPTION = 'student_subscription';
-const POSTS_SUBSCRIPTION = 'students_subscription';
-const COMMENT_SUBSCRIPTION = 'journal_subscription';
+const STUDENT_SUBSCRIPTION = "student_subscription";
+const STUDENTS_SUBSCRIPTION = "students_subscription";
+const JOURNAL_SUBSCRIPTION = "journal_subscription";
 
 export default pubsub => ({
   Query: {
@@ -17,14 +17,19 @@ export default pubsub => ({
           node: {
             id: student.id,
             firstName: student.firstName,
+            lastName: student.lastName,
             content: student.content
           }
         });
       });
 
-      const endCursor = edgesArray.length > 0 ? edgesArray[edgesArray.length - 1].cursor : 0;
+      const endCursor =
+        edgesArray.length > 0 ? edgesArray[edgesArray.length - 1].cursor : 0;
 
-      const values = await Promise.all([context.Student.getTotal(), context.Student.getNextPageFlag(endCursor)]);
+      const values = await Promise.all([
+        context.Student.getTotal(),
+        context.Student.getNextPageFlag(endCursor)
+      ]);
 
       return {
         totalCount: values[0].count,
@@ -41,7 +46,9 @@ export default pubsub => ({
   },
   Student: {
     journals: createBatchResolver((sources, args, context) => {
-      return context.Student.getJournalsForStudentIds(sources.map(({ id }) => id));
+      return context.Student.getJournalsForStudentIds(
+        sources.map(({ id }) => id)
+      );
     })
   },
   Mutation: {
@@ -49,9 +56,9 @@ export default pubsub => ({
       const [id] = await context.Student.addStudent(input);
       const student = await context.Student.student(id);
       // publish for student list
-      pubsub.publish(POSTS_SUBSCRIPTION, {
+      pubsub.publish(STUDENTS_SUBSCRIPTION, {
         studentsUpdated: {
-          mutation: 'CREATED',
+          mutation: "CREATED",
           id,
           node: student
         }
@@ -63,9 +70,9 @@ export default pubsub => ({
       const isDeleted = await context.Student.deleteStudent(id);
       if (isDeleted) {
         // publish for student list
-        pubsub.publish(POSTS_SUBSCRIPTION, {
+        pubsub.publish(STUDENTS_SUBSCRIPTION, {
           studentsUpdated: {
-            mutation: 'DELETED',
+            mutation: "DELETED",
             id,
             node: student
           }
@@ -79,24 +86,24 @@ export default pubsub => ({
       await context.Student.editStudent(input);
       const student = await context.Student.student(input.id);
       // publish for student list
-      pubsub.publish(POSTS_SUBSCRIPTION, {
+      pubsub.publish(STUDENTS_SUBSCRIPTION, {
         studentsUpdated: {
-          mutation: 'UPDATED',
+          mutation: "UPDATED",
           id: student.id,
           node: student
         }
       });
       // publish for edit student page
-      pubsub.publish(POST_SUBSCRIPTION, { studentUpdated: student });
+      pubsub.publish(STUDENT_SUBSCRIPTION, { studentUpdated: student });
       return student;
     },
     async addJournal(obj, { input }, context) {
       const [id] = await context.Student.addJournal(input);
       const journal = await context.Student.getJournal(id);
       // publish for edit student page
-      pubsub.publish(COMMENT_SUBSCRIPTION, {
+      pubsub.publish(JOURNAL_SUBSCRIPTION, {
         journalUpdated: {
-          mutation: 'CREATED',
+          mutation: "CREATED",
           id: journal.id,
           studentId: input.studentId,
           node: journal
@@ -107,9 +114,9 @@ export default pubsub => ({
     async deleteJournal(obj, { input: { id, studentId } }, context) {
       await context.Student.deleteJournal(id);
       // publish for edit student page
-      pubsub.publish(COMMENT_SUBSCRIPTION, {
+      pubsub.publish(JOURNAL_SUBSCRIPTION, {
         journalUpdated: {
-          mutation: 'DELETED',
+          mutation: "DELETED",
           id,
           studentId,
           node: null
@@ -121,9 +128,9 @@ export default pubsub => ({
       await context.Student.editJournal(input);
       const journal = await context.Student.getJournal(input.id);
       // publish for edit student page
-      pubsub.publish(COMMENT_SUBSCRIPTION, {
+      pubsub.publish(JOURNAL_SUBSCRIPTION, {
         journalUpdated: {
-          mutation: 'UPDATED',
+          mutation: "UPDATED",
           id: input.id,
           studentId: input.studentId,
           node: journal
@@ -135,7 +142,7 @@ export default pubsub => ({
   Subscription: {
     studentUpdated: {
       subscribe: withFilter(
-        () => pubsub.asyncIterator(POST_SUBSCRIPTION),
+        () => pubsub.asyncIterator(STUDENT_SUBSCRIPTION),
         (payload, variables) => {
           return payload.studentUpdated.id === variables.id;
         }
@@ -143,7 +150,7 @@ export default pubsub => ({
     },
     studentsUpdated: {
       subscribe: withFilter(
-        () => pubsub.asyncIterator(POSTS_SUBSCRIPTION),
+        () => pubsub.asyncIterator(STUDENTS_SUBSCRIPTION),
         (payload, variables) => {
           return variables.endCursor <= payload.studentsUpdated.id;
         }
@@ -151,7 +158,7 @@ export default pubsub => ({
     },
     journalUpdated: {
       subscribe: withFilter(
-        () => pubsub.asyncIterator(COMMENT_SUBSCRIPTION),
+        () => pubsub.asyncIterator(JOURNAL_SUBSCRIPTION),
         (payload, variables) => {
           return payload.journalUpdated.studentId === variables.studentId;
         }
