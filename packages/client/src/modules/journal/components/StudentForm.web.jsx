@@ -26,28 +26,28 @@ const StudentForm = ({ values, handleSubmit, submitting }) => {
         name="firstName"
         component={RenderField}
         type="text"
-        label="FirstName"
+        placeholder="First Name"
         value={values.firstName}
       />
       <Field
         name="lastName"
         component={RenderField}
         type="text"
-        label="lastName"
+        placeholder="Last Name"
         value={values.lastName}
       />
       <Field
         name="birthDate"
         component={RenderField}
         type="text"
-        label="BirthDate"
+        placeholder="Birth Date"
         value={values.birthDate}
       />
       <Field
         name="content"
         component={RenderField}
         type="text"
-        label="Content"
+        placeholder="Comment"
         value={values.content}
       />
       <Button color="primary" type="submit" disabled={submitting}>

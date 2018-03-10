@@ -25,28 +25,28 @@ const StudentForm = ({ values, handleSubmit }) => {
         name="firstName"
         component={RenderField}
         type="text"
-        label="FirstName"
+        placeholder="First Name"
         value={values.firstName}
       />
       <Field
         name="lastName"
         component={RenderField}
         type="text"
-        label="LastName"
+        placeholder="Last Name"
         value={values.lastName}
       />
       <Field
         name="birthDate"
         component={RenderField}
         type="text"
-        label="BirthDate"
-        value={values.lastName}
+        placeholder="Birth Date"
+        value={values.birthDate}
       />
       <Field
         name="content"
         component={RenderField}
         type="text"
-        label="Content"
+        placeholder="content"
         value={values.content}
       />
       <FormButton onPress={handleSubmit}>Save</FormButton>
