@@ -57,7 +57,7 @@ export default class StudentList extends React.PureComponent {
           dataIndex: "firstName",
           key: "firstName",
           render: (text, record) => (
-            <Link className="student-link" to={`/student/${record.id}`}>
+            <Link className="student-link" to={`/student/${record.id}/journal`}>
               {text}
             </Link>
           )
@@ -67,7 +67,7 @@ export default class StudentList extends React.PureComponent {
           dataIndex: "lastName",
           key: "lastName",
           render: (text, record) => (
-            <Link className="student-link" to={`/student/${record.id}`}>
+            <Link className="student-link" to={`/student/${record.id}/journal`}>
               {text}
             </Link>
           )
@@ -77,7 +77,7 @@ export default class StudentList extends React.PureComponent {
           dataIndex: "birthDate",
           key: "birthDate",
           render: (text, record) => (
-            <Link className="student-link" to={`/student/${record.id}`}>
+            <Link className="student-link" to={`/student/${record.id}/journal`}>
               {moment(parseInt(text)).format("MM/DD/YYYY")}
             </Link>
           )

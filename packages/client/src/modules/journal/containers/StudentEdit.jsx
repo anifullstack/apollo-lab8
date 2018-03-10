@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { graphql, compose } from "react-apollo";
 
 import StudentEditView from "../components/StudentEditView";
+import StudentReadView from "../components/StudentReadView";
+
 import { AddStudent } from "./Student";
 
 import STUDENT_QUERY from "../graphql/StudentQuery.graphql";
@@ -54,7 +56,20 @@ class StudentEdit extends React.Component {
   };
 
   render() {
-    return <StudentEditView {...this.props} />;
+    console.log(
+      "StudentEdit",
+      "render",
+      "props.match",
+      JSON.stringify(this.props.match)
+    );
+    if (
+      this.props &&
+      this.props.match &&
+      this.props.match.path &&
+      this.props.match.path.includes("journal")
+    ) {
+      return <StudentReadView {...this.props} />;
+    } else return <StudentEditView {...this.props} />;
   }
 }
 
