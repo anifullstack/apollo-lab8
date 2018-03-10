@@ -1,22 +1,30 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
-import { Link } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import Helmet from "react-helmet";
+import { Link } from "react-router-dom";
 
-import { PageLayout } from '../../common/components/web';
-import StudentForm from './StudentForm';
-import StudentJournals from '../containers/StudentJournals';
-import settings from '../../../../../../settings';
+import { PageLayout } from "../../common/components/web";
+import StudentForm from "./StudentForm";
+import StudentJournals from "../containers/StudentJournals";
+import settings from "../../../../../../settings";
 
 const onSubmit = (student, addStudent, editStudent) => values => {
   if (student) {
-    editStudent(student.id, values.firstName, values.content);
+    editStudent(student.id, values.firstName, values.lastName, values.content);
   } else {
-    addStudent(values.firstName, values.content);
+    addStudent(values.firstName, values.lastName, values.content);
   }
 };
 
-const StudentEditView = ({ loading, student, match, location, subscribeToMore, addStudent, editStudent }) => {
+const StudentEditView = ({
+  loading,
+  student,
+  match,
+  location,
+  subscribeToMore,
+  addStudent,
+  editStudent
+}) => {
   let studentObj = student;
   // if new student was just added read it from router
   if (!studentObj && location.state) {
@@ -25,11 +33,11 @@ const StudentEditView = ({ loading, student, match, location, subscribeToMore, a
 
   const renderMetaData = () => (
     <Helmet
-      firstName={`${settings.app.name} - Edit student`}
+      title={`${settings.app.name} - Edit student`}
       meta={[
         {
-          name: 'description',
-          content: 'Edit student example page'
+          name: "description",
+          content: "Edit student example page"
         }
       ]}
     />
@@ -49,8 +57,11 @@ const StudentEditView = ({ loading, student, match, location, subscribeToMore, a
         <Link id="back-button" to="/students">
           Back
         </Link>
-        <h2>{student ? 'Edit' : 'Create'} Student</h2>
-        <StudentForm onSubmit={onSubmit(studentObj, addStudent, editStudent)} student={student} />
+        <h2>{student ? "Edit" : "Create"} Student</h2>
+        <StudentForm
+          onSubmit={onSubmit(studentObj, addStudent, editStudent)}
+          student={student}
+        />
         <br />
         {studentObj && (
           <StudentJournals

@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { graphql, compose } from 'react-apollo';
+import React from "react";
+import PropTypes from "prop-types";
+import { graphql, compose } from "react-apollo";
 
-import StudentEditView from '../components/StudentEditView';
-import { AddStudent } from './Student';
+import StudentEditView from "../components/StudentEditView";
+import { AddStudent } from "./Student";
 
-import STUDENT_QUERY from '../graphql/StudentQuery.graphql';
-import ADD_STUDENT from '../graphql/AddStudent.graphql';
-import EDIT_STUDENT from '../graphql/EditStudent.graphql';
-import STUDENT_SUBSCRIPTION from '../graphql/StudentSubscription.graphql';
+import STUDENT_QUERY from "../graphql/StudentQuery.graphql";
+import ADD_STUDENT from "../graphql/AddStudent.graphql";
+import EDIT_STUDENT from "../graphql/EditStudent.graphql";
+import STUDENT_SUBSCRIPTION from "../graphql/StudentSubscription.graphql";
 
 class StudentEdit extends React.Component {
   static propTypes = {
@@ -79,15 +79,16 @@ export default compose(
   }),
   graphql(ADD_STUDENT, {
     props: ({ ownProps: { history, navigation }, mutate }) => ({
-      addStudent: async (firstName, content) => {
+      addStudent: async (firstName, lastName, content) => {
         let studentData = await mutate({
-          variables: { input: { firstName, content } },
+          variables: { input: { firstName, lastName, content } },
           optimisticResponse: {
-            __typename: 'Mutation',
+            __typename: "Mutation",
             addStudent: {
-              __typename: 'Student',
+              __typename: "Student",
               id: null,
               firstName: firstName,
+              lastName: lastName,
               content: content,
               journals: []
             }
@@ -100,7 +101,7 @@ export default compose(
         });
 
         if (history) {
-          return history.push('/student/' + studentData.data.addStudent.id, {
+          return history.push("/student/" + studentData.data.addStudent.id, {
             student: studentData.data.addStudent
           });
         } else if (navigation) {
@@ -114,12 +115,12 @@ export default compose(
   }),
   graphql(EDIT_STUDENT, {
     props: ({ ownProps: { history, navigation }, mutate }) => ({
-      editStudent: async (id, firstName, content) => {
+      editStudent: async (id, firstName, lastName, content) => {
         await mutate({
-          variables: { input: { id, firstName, content } }
+          variables: { input: { id, firstName, lastName, content } }
         });
         if (history) {
-          return history.push('/students');
+          return history.push("/students");
         }
         if (navigation) {
           return navigation.goBack();

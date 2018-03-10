@@ -7,9 +7,9 @@ import StudentJournals from '../containers/StudentJournals';
 
 const onSubmit = (student, addStudent, editStudent) => values => {
   if (student) {
-    editStudent(student.id, values.firstName, values.content);
+    editStudent(student.id, values.firstName, values.lastName, values.content);
   } else {
-    addStudent(values.firstName, values.content);
+    addStudent(values.firstName, values.lastName, values.content);
   }
 };
 
