@@ -59,14 +59,22 @@ class StudentEdit extends React.Component {
     console.log(
       "StudentEdit",
       "render",
-      "props.match",
-      JSON.stringify(this.props.match)
+      "this.props.navigation.state.routeName",
+      JSON.stringify(this.props.navigation.state.routeName)
     );
     if (
       this.props &&
       this.props.match &&
       this.props.match.path &&
       this.props.match.path.includes("journal")
+    ) {
+      return <StudentReadView {...this.props} />;
+    } else if (
+      this.props &&
+      this.props.navigation &&
+      this.props.navigation.state &&
+      this.props.navigation.state.routeName &&
+      this.props.navigation.state.routeName.includes("StudentJournal")
     ) {
       return <StudentReadView {...this.props} />;
     } else return <StudentEditView {...this.props} />;

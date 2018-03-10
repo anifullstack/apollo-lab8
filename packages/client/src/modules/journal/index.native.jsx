@@ -1,22 +1,28 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Button } from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import { Ionicons } from '@expo/vector-icons';
+import React from "react";
+import PropTypes from "prop-types";
+import { Button } from "react-native";
+import { StackNavigator } from "react-navigation";
+import { Ionicons } from "@expo/vector-icons";
 
-import { createTabBarIconWrapper } from '../common/components/native';
+import { createTabBarIconWrapper } from "../common/components/native";
 
-import Student from './containers/Student';
-import StudentEdit from './containers/StudentEdit';
+import Student from "./containers/Student";
+import StudentEdit from "./containers/StudentEdit";
+import StudentJournal from "./containers/StudentEdit";
 
-import resolvers from './resolvers';
+import resolvers from "./resolvers";
 
-import Feature from '../connector';
+import Feature from "../connector";
 
 class StudentListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'Student list',
-    headerRight: <Button title="Add" onPress={() => navigation.navigate('StudentEdit', { id: 0 })} />
+    title: "Student list",
+    headerRight: (
+      <Button
+        title="Add"
+        onPress={() => navigation.navigate("StudentEdit", { id: 0 })}
+      />
+    )
   });
   render() {
     return <Student navigation={this.props.navigation} />;
@@ -29,7 +35,7 @@ StudentListScreen.propTypes = {
 
 class StudentEditScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: `${navigation.state.params.id === 0 ? 'Create' : 'Edit'} student`
+    title: `${navigation.state.params.id === 0 ? "Create" : "Edit"} student`
   });
   render() {
     return <StudentEdit navigation={this.props.navigation} />;
@@ -40,9 +46,23 @@ StudentEditScreen.propTypes = {
   navigation: PropTypes.object
 };
 
+class StudentJournalScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: `${navigation.state.params.id === 0 ? "Create" : "Edit"} Journal`
+  });
+  render() {
+    return <StudentJournal navigation={this.props.navigation} />;
+  }
+}
+
+StudentJournalScreen.propTypes = {
+  navigation: PropTypes.object
+};
+
 const StudentNavigator = StackNavigator({
   StudentList: { screen: StudentListScreen },
-  StudentEdit: { screen: StudentEditScreen }
+  StudentEdit: { screen: StudentEditScreen },
+  StudentJournal: { screen: StudentJournalScreen }
 });
 
 export default new Feature({
@@ -51,7 +71,7 @@ export default new Feature({
       screen: StudentNavigator,
       navigationOptions: {
         tabBarIcon: createTabBarIconWrapper(Ionicons, {
-          name: 'ios-book-outline',
+          name: "ios-book-outline",
           size: 30
         })
       }

@@ -1,19 +1,37 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import React from "react";
+import PropTypes from "prop-types";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 
-import StudentForm from './StudentForm';
-import StudentJournals from '../containers/StudentJournals';
+import StudentForm from "./StudentForm";
+import StudentJournals from "../containers/StudentJournals";
 
 const onSubmit = (student, addStudent, editStudent) => values => {
   if (student) {
-    editStudent(student.id, values.firstName, values.lastName, values.birthDate, values.content);
+    editStudent(
+      student.id,
+      values.firstName,
+      values.lastName,
+      values.birthDate,
+      values.content
+    );
   } else {
-    addStudent(values.firstName, values.lastName, values.birthDate, values.content);
+    addStudent(
+      values.firstName,
+      values.lastName,
+      values.birthDate,
+      values.content
+    );
   }
 };
 
-const StudentEditView = ({ loading, student, navigation, subscribeToMore, addStudent, editStudent }) => {
+const StudentEditView = ({
+  loading,
+  student,
+  navigation,
+  subscribeToMore,
+  addStudent,
+  editStudent
+}) => {
   let studentObj = student;
 
   // if new student was just added read it from router
@@ -30,7 +48,11 @@ const StudentEditView = ({ loading, student, navigation, subscribeToMore, addStu
   } else {
     return (
       <ScrollView style={styles.container}>
-        <StudentForm onSubmit={onSubmit(studentObj, addStudent, editStudent)} student={student} />
+        {studentObj && (
+          <Text style={styles.text}>
+            {studentObj.firstName} {studentObj.lastName}
+          </Text>
+        )}
         {studentObj && (
           <StudentJournals
             studentId={navigation.state.params.id}
@@ -53,8 +75,11 @@ StudentEditView.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  text: {
+    fontSize: 18
+  },
   container: {
-    flexDirection: 'column'
+    flexDirection: "column"
   }
 });
 
