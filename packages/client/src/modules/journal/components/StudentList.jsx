@@ -41,6 +41,7 @@ export default class StudentList extends React.PureComponent {
   };
 
   renderItemAndroid = ({ item: { node: { id, firstName, lastName } } }) => {
+    console.log("StudentList", "renderItemAndroid", "props", this.props);
     const { deleteStudent, navigation } = this.props;
     return (
       <TouchableOpacity
@@ -50,6 +51,12 @@ export default class StudentList extends React.PureComponent {
         <Text style={styles.text}>
           {firstName} {lastName}
         </Text>
+        <TouchableOpacity
+          style={styles.iconWrapper}
+          onPress={() => navigation.navigate("StudentEdit", { id })}
+        >
+          <FontAwesome name="edit" size={20} style={{ color: "#3B5998" }} />
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.iconWrapper}
           onPress={() => deleteStudent(id)}

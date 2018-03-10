@@ -44,7 +44,7 @@ const StudentEditView = ({
 
   const renderMetaData = () => (
     <Helmet
-      title={`${settings.app.name} - Edit student`}
+      title={`Student Journal`}
       meta={[
         {
           name: "description",
@@ -68,7 +68,9 @@ const StudentEditView = ({
         <Link id="back-button" to="/students">
           Back
         </Link>
-        <h2>{student ? "Edit" : "Create"} Student</h2>
+        <h2>
+          {studentObj.firstName} {studentObj.lastName}
+        </h2>
 
         {studentObj && (
           <StudentJournals
