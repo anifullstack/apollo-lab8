@@ -85,16 +85,24 @@ export default class StudentList extends React.PureComponent {
         {
           title: "Actions",
           key: "actions",
-          width: 50,
+          width: 60,
           render: (text, record) => (
-            <Button
-              color="primary"
-              size="sm"
-              className="delete-button"
-              onClick={() => this.handleDeleteStudent(record.id)}
-            >
-              Delete
-            </Button>
+            <div>
+              <Link className="student-link" to={`/student/${record.id}`}>
+                <Button color="primary" size="sm" className="delete-button">
+                  Edit
+                </Button>
+              </Link>
+
+              <Button
+                color="primary"
+                size="sm"
+                className="delete-button"
+                onClick={() => this.handleDeleteStudent(record.id)}
+              >
+                Delete
+              </Button>
+            </div>
           )
         }
       ];
