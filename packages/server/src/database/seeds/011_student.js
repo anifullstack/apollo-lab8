@@ -11,9 +11,11 @@ export async function seed(knex, Promise) {
         .insert({
           firstName: `${casual.first_name}`,
           lastName: `${casual.last_name}`,
-          birthDate: moment()
-            .subtract(casual.integer(1095, 2195), "days")
-            .valueOf(),
+          birthDate: Math.round(
+            moment()
+              .subtract(casual.integer(1095, 2195), "days")
+              .valueOf()
+          ),
 
           content: `Student content ${ii + 1}`
         });

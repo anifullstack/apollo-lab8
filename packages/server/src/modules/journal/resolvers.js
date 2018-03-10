@@ -18,6 +18,7 @@ export default pubsub => ({
             id: student.id,
             firstName: student.firstName,
             lastName: student.lastName,
+            birthDate: student.birthDate,
             content: student.content
           }
         });
