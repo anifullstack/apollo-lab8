@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   StyleSheet,
   FlatList,
@@ -9,11 +9,11 @@ import {
   TouchableOpacity,
   Platform,
   TouchableWithoutFeedback
-} from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
-import { SwipeAction } from '../../common/components/native';
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { SwipeAction } from "../../common/components/native";
 
-import StudentJournalForm from './StudentJournalForm';
+import StudentJournalForm from "./StudentJournalForm";
 
 export default class StudentJournalsView extends React.PureComponent {
   static propTypes = {
@@ -35,8 +35,9 @@ export default class StudentJournalsView extends React.PureComponent {
       <SwipeAction
         onPress={() => onJournalSelect({ id: id, content: content })}
         right={{
-          text: 'Delete',
-          onPress: () => this.onJournalDelete(journal, deleteJournal, onJournalSelect, id)
+          text: "Delete",
+          onPress: () =>
+            this.onJournalDelete(journal, deleteJournal, onJournalSelect, id)
         }}
       >
         {content}
@@ -47,14 +48,18 @@ export default class StudentJournalsView extends React.PureComponent {
   renderItemAndroid = ({ item: { id, content } }) => {
     const { deleteJournal, onJournalSelect, journal } = this.props;
     return (
-      <TouchableWithoutFeedback onPress={() => onJournalSelect({ id: id, content: content })}>
+      <TouchableWithoutFeedback
+        onPress={() => onJournalSelect({ id: id, content: content })}
+      >
         <View style={styles.studentWrapper}>
           <Text style={styles.text}>{content}</Text>
           <TouchableOpacity
             style={styles.iconWrapper}
-            onPress={() => this.onJournalDelete(journal, deleteJournal, onJournalSelect, id)}
+            onPress={() =>
+              this.onJournalDelete(journal, deleteJournal, onJournalSelect, id)
+            }
           >
-            <FontAwesome name="trash" size={20} style={{ color: '#3B5998' }} />
+            <FontAwesome name="trash" size={20} style={{ color: "#3B5998" }} />
           </TouchableOpacity>
         </View>
       </TouchableWithoutFeedback>
@@ -63,38 +68,62 @@ export default class StudentJournalsView extends React.PureComponent {
 
   onJournalDelete = (journal, deleteJournal, onJournalSelect, id) => {
     if (journal.id === id) {
-      onJournalSelect({ id: null, content: '' });
+      onJournalSelect({ id: null, content: "" });
     }
 
     deleteJournal(id);
   };
 
-  onSubmit = (journal, studentId, addJournal, editJournal, onJournalSelect) => values => {
+  onSubmit = (
+    journal,
+    studentId,
+    addJournal,
+    editJournal,
+    onJournalSelect
+  ) => values => {
     if (journal.id === null) {
       addJournal(values.content, studentId);
     } else {
       editJournal(journal.id, values.content);
     }
 
-    onJournalSelect({ id: null, content: '' });
+    onJournalSelect({ id: null, content: "" });
     Keyboard.dismiss();
   };
 
   render() {
-    const { studentId, journal, addJournal, editJournal, journals, onJournalSelect } = this.props;
-    const renderItem = Platform.OS === 'android' ? this.renderItemAndroid : this.renderItemIOS;
+    const {
+      studentId,
+      journal,
+      addJournal,
+      editJournal,
+      journals,
+      onJournalSelect
+    } = this.props;
+    const renderItem =
+      Platform.OS === "android" ? this.renderItemAndroid : this.renderItemIOS;
 
     return (
       <View>
-        <Text style={styles.firstName}>Journals</Text>
+        <Text style={styles.firstName}>Journal</Text>
         <StudentJournalForm
           studentId={studentId}
-          onSubmit={this.onSubmit(journal, studentId, addJournal, editJournal, onJournalSelect)}
+          onSubmit={this.onSubmit(
+            journal,
+            studentId,
+            addJournal,
+            editJournal,
+            onJournalSelect
+          )}
           journal={journal}
         />
         {journals.length > 0 && (
           <View style={styles.list} keyboardDismissMode="on-drag">
-            <FlatList data={journals} keyExtractor={this.keyExtractor} renderItem={renderItem} />
+            <FlatList
+              data={journals}
+              keyExtractor={this.keyExtractor}
+              renderItem={renderItem}
+            />
           </View>
         )}
       </View>
@@ -105,8 +134,8 @@ export default class StudentJournalsView extends React.PureComponent {
 const styles = StyleSheet.create({
   firstName: {
     fontSize: 20,
-    fontWeight: '600',
-    textAlign: 'center',
+    fontWeight: "600",
+    textAlign: "center",
     margin: 10
   },
   list: {
@@ -116,20 +145,20 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   iconWrapper: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     width: 50,
     height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row'
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row"
   },
   studentWrapper: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderBottomColor: '#000',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderBottomColor: "#000",
     borderBottomWidth: 0.3,
     height: 50,
     paddingLeft: 7
