@@ -1,4 +1,7 @@
 fragment JournalInfo on Journal {
   id
+  subject
+  activity
+  activityDate
   content
 }

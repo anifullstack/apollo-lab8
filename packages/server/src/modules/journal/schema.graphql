@@ -12,8 +12,8 @@ type Student {
 type Journal {
   id: Int!
   subject: String
-  activity: String!
-  activityDate: String!
+  activity: String
+  activityDate: String
   content: String
 }
 

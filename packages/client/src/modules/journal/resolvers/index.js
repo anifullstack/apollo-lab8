@@ -1,12 +1,16 @@
-import JOURNAL_QUERY_CLIENT from '../graphql/JournalQuery.client.graphql';
+import JOURNAL_QUERY_CLIENT from "../graphql/JournalQuery.client.graphql";
 
-const TYPE_NAME = 'JournalState';
-const TYPE_NAME_JOURNAL = 'Journal';
+const TYPE_NAME = "JournalState";
+const TYPE_NAME_JOURNAL = "Journal";
 
 const defaults = {
   journal: {
     id: null,
-    content: '',
+    subject: "",
+    activity: "",
+    activityDate: "",
+    content: "",
+    activity: "",
     __typename: TYPE_NAME_JOURNAL
   },
   __typename: TYPE_NAME
@@ -15,7 +19,9 @@ const defaults = {
 const resolvers = {
   Query: {
     journalState: (_, args, { cache }) => {
-      const { journal: { journal } } = cache.readQuery({ query: JOURNAL_QUERY_CLIENT });
+      const { journal: { journal } } = cache.readQuery({
+        query: JOURNAL_QUERY_CLIENT
+      });
       return {
         journal: {
           ...journal,
