@@ -35,6 +35,7 @@ export async function seed(knex, Promise) {
             .returning("id")
             .insert({
               student_id: student[0],
+              subject: randomSubject.name,
               activity: randomActivity.name,
               activityDate: randomActivityDate.valueOf(),
               note: `Note ${jj + 1} for student ${student[0]}`

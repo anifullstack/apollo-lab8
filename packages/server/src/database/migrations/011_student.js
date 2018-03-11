@@ -18,6 +18,7 @@ exports.up = function(knex, Promise) {
           .inTable("student")
           .onDelete("CASCADE");
         table.integer("activityDate").notNullable();
+        table.integer("subject");
         table.integer("activity");
         table.string("note");
         table.timestamps(false, true);

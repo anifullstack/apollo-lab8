@@ -11,7 +11,10 @@ type Student {
 # Journal
 type Journal {
   id: Int!
-  content: String!
+  subject: String
+  activity: String!
+  activityDate: String!
+  note: String
 }
 
 # Edges for Students
@@ -74,7 +77,10 @@ input EditStudentInput {
 
 # Input for addJournal Mutation
 input AddJournalInput {
-  content: String!
+  subject: String,
+  activity: String!
+  activityDate: String!
+  note: String
   # Needed for journalUpdated Subscription filter
   studentId: Int!
 }
@@ -89,7 +95,10 @@ input DeleteJournalInput {
 # Input for deleteJournal Mutation
 input EditJournalInput {
   id: Int!
-  content: String!
+  subject: String,
+  activity: String!
+  activityDate: String!
+  note: String
   # Needed for journalUpdated Subscription filter
   studentId: Int!
 }
