@@ -23,7 +23,7 @@ export default class Student {
         "subject",
         "activity",
         "activityDate",
-        "note",
+        "content",
         "student_id AS studentId"
       )
       .from("journal")
@@ -76,9 +76,17 @@ export default class Student {
       });
   }
 
-  addJournal({ subject, activity, activityDate, note, studentId }) {
+  addJournal({ subject, activity, activityDate, content, studentId }) {
+    activityDate = 1518231954397;
+
     return knex("journal")
-      .insert({ subject, activity, activityDate, note, student_id: studentId })
+      .insert({
+        subject,
+        activity,
+        activityDate,
+        content,
+        student_id: studentId
+      })
       .returning("id");
   }
 
@@ -96,11 +104,11 @@ export default class Student {
       .del();
   }
 
-  editJournal({ id, subject, activity, activityDate, note }) {
+  editJournal({ id, subject, activity, activityDate, content }) {
     return knex("journal")
       .where("id", "=", id)
       .update({
-        note: note,
+        content: content,
         subject: subject,
         activity: activity,
         activityDate: activityDate

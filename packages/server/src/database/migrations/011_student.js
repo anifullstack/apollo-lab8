@@ -20,7 +20,7 @@ exports.up = function(knex, Promise) {
         table.integer("activityDate").notNullable();
         table.integer("subject");
         table.integer("activity");
-        table.string("note");
+        table.string("content");
         table.timestamps(false, true);
       })
   ]);

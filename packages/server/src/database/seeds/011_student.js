@@ -38,7 +38,7 @@ export async function seed(knex, Promise) {
               subject: randomSubject.name,
               activity: randomActivity.name,
               activityDate: randomActivityDate.valueOf(),
-              note: `Note ${jj + 1} for student ${student[0]}`
+              content: `content ${jj + 1} for student ${student[0]}`
             });
         })
       );
