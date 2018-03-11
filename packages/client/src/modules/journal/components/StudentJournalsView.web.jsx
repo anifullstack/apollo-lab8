@@ -15,16 +15,22 @@ export default class StudentJournalsView extends React.PureComponent {
     onJournalSelect: PropTypes.func.isRequired
   };
 
-  handleEditJournal = (id, content) => {
+  handleEditJournal = (id, subject, activity, activityDate, content) => {
     const { onJournalSelect } = this.props;
-    onJournalSelect({ id, content });
+    onJournalSelect({ id, subject, activity, activityDate, content });
   };
 
   handleDeleteJournal = id => {
     const { journal, onJournalSelect, deleteJournal } = this.props;
 
     if (journal.id === id) {
-      onJournalSelect({ id: null, content: "" });
+      onJournalSelect({
+        id: null,
+        subject: "",
+        activity: "",
+        activityDate: "",
+        content: ""
+      });
     }
 
     deleteJournal(id);
@@ -40,17 +46,50 @@ export default class StudentJournalsView extends React.PureComponent {
     } = this.props;
 
     if (journal.id === null) {
-      addJournal(values.content, studentId);
+      addJournal(
+        values.subject,
+        values.activity,
+        values.activityDate,
+        values.content,
+        studentId
+      );
     } else {
-      editJournal(journal.id, values.content);
+      editJournal(
+        journal.id,
+        values.subject,
+        values.activity,
+        values.activityDate,
+        values.content
+      );
     }
 
-    onJournalSelect({ id: null, content: "" });
+    onJournalSelect({
+      id: null,
+      subject: "",
+      activity: "",
+      activityDate: "",
+      content: ""
+    });
   };
 
   render() {
     const { studentId, journals, journal } = this.props;
     const columns = [
+      {
+        title: "activityDate",
+        dataIndex: "activityDate",
+        key: "activityDate"
+      },
+      {
+        title: "subject",
+        dataIndex: "subject",
+        key: "subject"
+      },
+      {
+        title: "activity",
+        dataIndex: "activity",
+        key: "activity"
+      },
       {
         title: "Content",
         dataIndex: "content",

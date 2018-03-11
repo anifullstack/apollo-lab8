@@ -29,29 +29,52 @@ export default class StudentJournalsView extends React.PureComponent {
 
   keyExtractor = item => item.id;
 
-  renderItemIOS = ({ item: { id, content } }) => {
+  renderItemIOS = ({
+    item: { id, subject, activity, activityDate, content }
+  }) => {
     const { journal, deleteJournal, onJournalSelect } = this.props;
     return (
       <SwipeAction
-        onPress={() => onJournalSelect({ id: id, content: content })}
+        onPress={() =>
+          onJournalSelect({
+            id: id,
+            subject: subject,
+            activity: activity,
+            activityDate: activityDate,
+            content: content
+          })
+        }
         right={{
           text: "Delete",
           onPress: () =>
             this.onJournalDelete(journal, deleteJournal, onJournalSelect, id)
         }}
       >
-        {content}
+        {activity}
       </SwipeAction>
     );
   };
 
-  renderItemAndroid = ({ item: { id, content } }) => {
+  renderItemAndroid = ({
+    item: { id, subject, activity, activityDate, content }
+  }) => {
     const { deleteJournal, onJournalSelect, journal } = this.props;
     return (
       <TouchableWithoutFeedback
-        onPress={() => onJournalSelect({ id: id, content: content })}
+        onPress={() =>
+          onJournalSelect({
+            id: id,
+            subject: subject,
+            activity: activity,
+            activityDate: activityDate,
+            content: content
+          })
+        }
       >
         <View style={styles.studentWrapper}>
+          <Text style={styles.text}>{activityDate}</Text>
+          <Text style={styles.text}>{subject}</Text>
+          <Text style={styles.text}>{activity}</Text>
           <Text style={styles.text}>{content}</Text>
           <TouchableOpacity
             style={styles.iconWrapper}
@@ -68,7 +91,13 @@ export default class StudentJournalsView extends React.PureComponent {
 
   onJournalDelete = (journal, deleteJournal, onJournalSelect, id) => {
     if (journal.id === id) {
-      onJournalSelect({ id: null, content: "" });
+      onJournalSelect({
+        id: null,
+        subject: "",
+        activity: "",
+        activityDate: "",
+        content: ""
+      });
     }
 
     deleteJournal(id);
@@ -82,12 +111,30 @@ export default class StudentJournalsView extends React.PureComponent {
     onJournalSelect
   ) => values => {
     if (journal.id === null) {
-      addJournal(values.content, studentId);
+      addJournal(
+        values.subject,
+        values.activity,
+        values.activityDate,
+        values.content,
+        studentId
+      );
     } else {
-      editJournal(journal.id, values.content);
+      editJournal(
+        journal.id,
+        values.subject,
+        values.activity,
+        values.activityDate,
+        values.content
+      );
     }
 
-    onJournalSelect({ id: null, content: "" });
+    onJournalSelect({
+      id: null,
+      subject: "",
+      activity: "",
+      activityDate: "",
+      content: ""
+    });
     Keyboard.dismiss();
   };
 
@@ -132,7 +179,7 @@ export default class StudentJournalsView extends React.PureComponent {
 }
 
 const styles = StyleSheet.create({
-  firstName: {
+  title: {
     fontSize: 20,
     fontWeight: "600",
     textAlign: "center",

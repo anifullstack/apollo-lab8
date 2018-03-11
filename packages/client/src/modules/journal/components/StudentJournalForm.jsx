@@ -1,25 +1,56 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withFormik } from 'formik';
-import Field from '../../../utils/FieldAdapter';
-import { FormView, RenderField, FormButton } from '../../common/components/native';
-import { required, validateForm } from '../../../../../common/validation';
+import React from "react";
+import PropTypes from "prop-types";
+import { withFormik } from "formik";
+import Field from "../../../utils/FieldAdapter";
+import {
+  FormView,
+  RenderField,
+  FormButton
+} from "../../common/components/native";
+import { required, validateForm } from "../../../../../common/validation";
 
 const journalFormSchema = {
-  content: [required]
+  activity: [required]
 };
 
 const validate = values => validateForm(values, journalFormSchema);
 
 const StudentJournalForm = ({ values, handleSubmit, journal }) => {
-  let operation = 'Add';
+  let operation = "Add";
   if (journal.id !== null) {
-    operation = 'Edit';
+    operation = "Edit";
   }
 
   return (
     <FormView>
-      <Field name="content" component={RenderField} type="text" value={values.content} placeholder="Journal" />
+      <Field
+        name="activityDate"
+        component={RenderField}
+        type="text"
+        value={values.activityDate}
+        placeholder="activityDate"
+      />
+      <Field
+        name="subject"
+        component={RenderField}
+        type="text"
+        value={values.subject}
+        placeholder="subject"
+      />
+      <Field
+        name="activity"
+        component={RenderField}
+        type="text"
+        value={values.activity}
+        placeholder="activity"
+      />
+      <Field
+        name="content"
+        component={RenderField}
+        type="text"
+        value={values.content}
+        placeholder="Journal"
+      />
       <FormButton onPress={handleSubmit}>{operation}</FormButton>
     </FormView>
   );
@@ -36,13 +67,18 @@ StudentJournalForm.propTypes = {
 };
 
 const StudentJournalFormWithFormik = withFormik({
-  mapPropsToValues: props => ({ content: props.journal && props.journal.content }),
+  mapPropsToValues: props => ({
+    subject: props.journal && props.journal.subject,
+    activity: props.journal && props.journal.activity,
+    activityDate: props.journal && props.journal.activityDate,
+    content: props.journal && props.journal.content
+  }),
   validate: values => validate(values),
   handleSubmit: async (values, { resetForm, props: { onSubmit } }) => {
     await onSubmit(values);
-    resetForm({ content: '' });
+    resetForm({ subject: "", activity: "", activityDate: "", content: "" });
   },
-  displayName: 'JournalForm', // helps with React DevTools
+  displayName: "JournalForm", // helps with React DevTools
   enableReinitialize: true
 });
 
