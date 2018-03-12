@@ -5,6 +5,7 @@ import Field from "../../../utils/FieldAdapter";
 import {
   Form,
   RenderField,
+  RenderSelect,
   Row,
   Col,
   Label,
@@ -19,6 +20,7 @@ const journalFormSchema = {
 const validate = values => validateForm(values, journalFormSchema);
 
 const StudentJournalForm = ({ values, handleSubmit, journal }) => {
+  console.log("StudentJournalForm", "values", values);
   return (
     <Form name="journal" onSubmit={handleSubmit}>
       <Row>
@@ -34,12 +36,17 @@ const StudentJournalForm = ({ values, handleSubmit, journal }) => {
             placeholder="activityDate"
           />
           <Field
-            name="subject"
             component={RenderField}
-            type="text"
+            type="select"
+            name="subject"
             value={values.subject}
             placeholder="subject"
-          />
+          >
+            <option value="MATH">Math</option>
+            <option value="PR">Practical Life</option>
+            <option value="LANG">Language</option>
+            <option value="SENS">Sensorial</option>
+          </Field>
           <Field
             name="activity"
             component={RenderField}

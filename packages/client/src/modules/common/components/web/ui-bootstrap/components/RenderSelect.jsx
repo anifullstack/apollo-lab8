@@ -1,13 +1,28 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FormGroup, Label, Input, FormFeedback } from 'reactstrap';
+import React from "react";
+import PropTypes from "prop-types";
+import { FormGroup, Label, Input, FormFeedback } from "reactstrap";
 
-const RenderField = ({ input, label, type, children, meta: { touched, error } }) => {
-  let color = 'normal';
+const RenderField = ({
+  input,
+  label,
+  type,
+  children,
+  meta: { touched, error }
+}) => {
+  let color = "normal";
   if (touched && error) {
-    color = 'danger';
+    color = "danger";
   }
 
+  console.log(
+    "RenderSelect",
+    "constructor",
+
+    "type",
+    type,
+    "input",
+    input
+  );
   return (
     <FormGroup color={color}>
       {label && <Label>{label}</Label>}

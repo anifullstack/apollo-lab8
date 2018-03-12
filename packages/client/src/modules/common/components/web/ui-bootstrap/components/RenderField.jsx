@@ -1,18 +1,39 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FormGroup, Label, Input, FormFeedback } from 'reactstrap';
+import React from "react";
+import PropTypes from "prop-types";
+import { FormGroup, Label, Input, FormFeedback } from "reactstrap";
 
-const RenderField = ({ input, label, type, meta: { touched, error }, children, placeholder }) => {
+const RenderField = ({
+  input,
+  label,
+  type,
+  meta: { touched, error },
+  children,
+  placeholder
+}) => {
   let valid = null;
   if (touched && error) {
     valid = false;
   }
-
+  console.log(
+    "RenderField",
+    "constructor",
+    "placeholder",
+    placeholder,
+    "type",
+    type,
+    "input",
+    input
+  );
   return (
     <FormGroup>
       {label && <Label>{label}</Label>}
       <div>
-        <Input {...input} placeholder={label || placeholder} type={type} valid={valid}>
+        <Input
+          {...input}
+          placeholder={label || placeholder}
+          type={type}
+          valid={valid}
+        >
           {children}
         </Input>
         {touched && (error && <FormFeedback>{error}</FormFeedback>)}

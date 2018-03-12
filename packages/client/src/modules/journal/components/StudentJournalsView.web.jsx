@@ -16,6 +16,18 @@ export default class StudentJournalsView extends React.PureComponent {
   };
 
   handleEditJournal = (id, subject, activity, activityDate, content) => {
+    console.log(
+      "StudentJournalsViewWeb",
+      "handleEditJournal",
+      "activityDate",
+      activityDate,
+      "subject",
+      subject,
+      "activity",
+      activity,
+      "content",
+      content
+    );
     const { onJournalSelect } = this.props;
     onJournalSelect({ id, subject, activity, activityDate, content });
   };
@@ -105,7 +117,15 @@ export default class StudentJournalsView extends React.PureComponent {
               color="primary"
               size="sm"
               className="edit-journal"
-              onClick={() => this.handleEditJournal(record.id, record.content)}
+              onClick={() =>
+                this.handleEditJournal(
+                  record.id,
+                  record.subject,
+                  record.activity,
+                  record.activityDate,
+                  record.content
+                )
+              }
             >
               Edit
             </Button>{" "}
@@ -121,6 +141,8 @@ export default class StudentJournalsView extends React.PureComponent {
         )
       }
     ];
+
+    console.log("StudentJournalsViewWeb", "journal", journal);
 
     return (
       <div>
