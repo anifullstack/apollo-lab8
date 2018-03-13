@@ -1,16 +1,9 @@
 /*eslint-disable react/display-name*/
-import React from "react";
-import PropTypes from "prop-types";
-import { FontAwesome } from "@expo/vector-icons";
-import {
-  StyleSheet,
-  FlatList,
-  Text,
-  View,
-  Platform,
-  TouchableOpacity
-} from "react-native";
-import { SwipeAction } from "../../common/components/native";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { FontAwesome } from '@expo/vector-icons';
+import { StyleSheet, FlatList, Text, View, Platform, TouchableOpacity } from 'react-native';
+import { SwipeAction } from '../../common/components/native';
 
 export default class StudentList extends React.PureComponent {
   static propTypes = {
@@ -29,9 +22,9 @@ export default class StudentList extends React.PureComponent {
     const { deleteStudent, navigation } = this.props;
     return (
       <SwipeAction
-        onPress={() => navigation.navigate("StudentEdit", { id })}
+        onPress={() => navigation.navigate('StudentEdit', { id })}
         right={{
-          text: "Delete",
+          text: 'Delete',
           onPress: () => deleteStudent(id)
         }}
       >
@@ -43,24 +36,15 @@ export default class StudentList extends React.PureComponent {
   renderItemAndroid = ({ item: { node: { id, firstName, lastName } } }) => {
     const { deleteStudent, navigation } = this.props;
     return (
-      <TouchableOpacity
-        style={styles.studentWrapper}
-        onPress={() => navigation.navigate("StudentJournal", { id })}
-      >
+      <TouchableOpacity style={styles.studentWrapper} onPress={() => navigation.navigate('StudentJournal', { id })}>
         <Text style={styles.text}>
           {firstName} {lastName}
         </Text>
-        <TouchableOpacity
-          style={styles.iconWrapper}
-          onPress={() => navigation.navigate("StudentEdit", { id })}
-        >
-          <FontAwesome name="edit" size={20} style={{ color: "#3B5998" }} />
+        <TouchableOpacity style={styles.iconWrapper} onPress={() => navigation.navigate('StudentEdit', { id })}>
+          <FontAwesome name="edit" size={20} style={{ color: '#3B5998' }} />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.iconWrapper}
-          onPress={() => deleteStudent(id)}
-        >
-          <FontAwesome name="trash" size={20} style={{ color: "#3B5998" }} />
+        <TouchableOpacity style={styles.iconWrapper} onPress={() => deleteStudent(id)}>
+          <FontAwesome name="trash" size={20} style={{ color: '#3B5998' }} />
         </TouchableOpacity>
       </TouchableOpacity>
     );
@@ -68,8 +52,7 @@ export default class StudentList extends React.PureComponent {
 
   render() {
     const { loading, students, loadMoreRows } = this.props;
-    const renderItem =
-      Platform.OS === "android" ? this.renderItemAndroid : this.renderItemIOS;
+    const renderItem = Platform.OS === 'android' ? this.renderItemAndroid : this.renderItemIOS;
     if (loading) {
       return (
         <View style={styles.container}>
@@ -109,20 +92,20 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   iconWrapper: {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     width: 50,
     height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row"
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row'
   },
   studentWrapper: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderBottomColor: "#000",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderBottomColor: '#000',
     borderBottomWidth: 0.3,
     height: 50,
     paddingLeft: 7

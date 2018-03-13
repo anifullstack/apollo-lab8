@@ -11,6 +11,7 @@ import DELETE_JOURNAL from "../graphql/DeleteJournal.graphql";
 import JOURNAL_SUBSCRIPTION from "../graphql/JournalSubscription.graphql";
 import ADD_JOURNAL_CLIENT from "../graphql/AddJournal.client.graphql";
 import JOURNAL_QUERY_CLIENT from "../graphql/JournalQuery.client.graphql";
+import SUBJECTS_QUERY from "../graphql/SubjectsQuery.graphql";
 
 function AddJournal(prev, node) {
   // ignore if duplicate
@@ -56,6 +57,7 @@ class StudentJournals extends React.Component {
 
   constructor(props) {
     super(props);
+    //console.log("StudentJournalsContainer", "props", JSON.stringify(props));
     this.subscription = null;
   }
 
@@ -197,6 +199,19 @@ const StudentJournalsWithApollo = compose(
         mutate({ variables: { journal: journal } });
       }
     })
+  }),
+  graphql(SUBJECTS_QUERY, {
+    options: () => {
+      return {
+        variables: {}
+      };
+    },
+    props: ({ data }) => {
+      console.log("StudentJournals", "SUBJECTS_QUERY", "data", data);
+      const { loading, error, subjects } = data;
+      if (error) throw new Error(error);
+      return { loading, subjects };
+    }
   }),
   graphql(JOURNAL_QUERY_CLIENT, {
     props: ({ data: { journal } }) => ({ journal })

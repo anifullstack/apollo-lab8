@@ -14,15 +14,15 @@ const RenderField = ({
     color = "danger";
   }
 
-  console.log(
-    "RenderSelect",
-    "constructor",
+  /* console.log(
+    'RenderSelect',
+    'constructor',
 
-    "type",
+    'type',
     type,
-    "input",
+    'input',
     input
-  );
+  );*/
   return (
     <FormGroup color={color}>
       {label && <Label>{label}</Label>}

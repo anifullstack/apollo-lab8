@@ -15,6 +15,15 @@ export default class StudentJournalsView extends React.PureComponent {
     onJournalSelect: PropTypes.func.isRequired
   };
 
+  constructor(props) {
+    super(props);
+    /*console.log(
+      "StudentJournalsViewWeb|constructor",
+      "props",
+      JSON.stringify(props)
+    );*/
+  }
+
   handleEditJournal = (id, subject, activity, activityDate, content) => {
     console.log(
       "StudentJournalsViewWeb",
@@ -85,7 +94,8 @@ export default class StudentJournalsView extends React.PureComponent {
   };
 
   render() {
-    const { studentId, journals, journal } = this.props;
+    const { studentId, journals, journal, subjects } = this.props;
+    console.log("StudentJournalsViewWeb|render|subjects", subjects);
     const columns = [
       {
         title: "activityDate",
@@ -142,7 +152,13 @@ export default class StudentJournalsView extends React.PureComponent {
       }
     ];
 
-    console.log("StudentJournalsViewWeb", "journal", journal);
+    /*console.log(
+      "StudentJournalsViewWeb",
+      "journal",
+      journal,
+      "subjects",
+      subjects
+    );*/
 
     return (
       <div>
@@ -152,6 +168,7 @@ export default class StudentJournalsView extends React.PureComponent {
           onSubmit={this.onSubmit()}
           initialValues={journal}
           journal={journal}
+          subjects={subjects}
         />
         <h1 />
         <Table dataSource={journals} columns={columns} />

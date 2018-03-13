@@ -13,7 +13,7 @@ export default class Activity {
     return knex
       .select("id", "name")
       .from("subject")
-      .orderBy("name");
+      .orderBy("id");
   }
 
   getTotal() {

@@ -1,8 +1,8 @@
-import { withFilter } from "graphql-subscriptions";
-import { createBatchResolver } from "graphql-resolve-batch";
+import { withFilter } from 'graphql-subscriptions';
+import { createBatchResolver } from 'graphql-resolve-batch';
 
-const ACTIVITY_SUBSCRIPTION = "activity_subscription";
-const ACTIVITYS_SUBSCRIPTION = "activitys_subscription";
+const ACTIVITY_SUBSCRIPTION = 'activity_subscription';
+const ACTIVITYS_SUBSCRIPTION = 'activitys_subscription';
 
 export default pubsub => ({
   Query: {
@@ -23,7 +23,7 @@ export default pubsub => ({
       // publish for activity list
       pubsub.publish(ACTIVITYS_SUBSCRIPTION, {
         activitysUpdated: {
-          mutation: "CREATED",
+          mutation: 'CREATED',
           id,
           node: activity
         }
@@ -37,7 +37,7 @@ export default pubsub => ({
         // publish for activity list
         pubsub.publish(ACTIVITYS_SUBSCRIPTION, {
           activitysUpdated: {
-            mutation: "DELETED",
+            mutation: 'DELETED',
             id,
             node: activity
           }
@@ -53,7 +53,7 @@ export default pubsub => ({
       // publish for activity list
       pubsub.publish(ACTIVITYS_SUBSCRIPTION, {
         activitysUpdated: {
-          mutation: "UPDATED",
+          mutation: 'UPDATED',
           id: activity.id,
           node: activity
         }

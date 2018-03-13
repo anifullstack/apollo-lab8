@@ -1,13 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withFormik } from "formik";
-import Field from "../../../utils/FieldAdapter";
-import {
-  FormView,
-  RenderField,
-  FormButton
-} from "../../common/components/native";
-import { required, validateForm } from "../../../../../common/validation";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withFormik } from 'formik';
+import Field from '../../../utils/FieldAdapter';
+import { FormView, RenderField, FormButton } from '../../common/components/native';
+import { required, validateForm } from '../../../../../common/validation';
 
 const journalFormSchema = {
   activity: [required]
@@ -16,9 +12,9 @@ const journalFormSchema = {
 const validate = values => validateForm(values, journalFormSchema);
 
 const StudentJournalForm = ({ values, handleSubmit, journal }) => {
-  let operation = "Add";
+  let operation = 'Add';
   if (journal.id !== null) {
-    operation = "Edit";
+    operation = 'Edit';
   }
 
   return (
@@ -30,27 +26,9 @@ const StudentJournalForm = ({ values, handleSubmit, journal }) => {
         value={values.activityDate}
         placeholder="activityDate"
       />
-      <Field
-        name="subject"
-        component={RenderField}
-        type="text"
-        value={values.subject}
-        placeholder="subject"
-      />
-      <Field
-        name="activity"
-        component={RenderField}
-        type="text"
-        value={values.activity}
-        placeholder="activity"
-      />
-      <Field
-        name="content"
-        component={RenderField}
-        type="text"
-        value={values.content}
-        placeholder="Journal"
-      />
+      <Field name="subject" component={RenderField} type="text" value={values.subject} placeholder="subject" />
+      <Field name="activity" component={RenderField} type="text" value={values.activity} placeholder="activity" />
+      <Field name="content" component={RenderField} type="text" value={values.content} placeholder="Journal" />
       <FormButton onPress={handleSubmit}>{operation}</FormButton>
     </FormView>
   );
@@ -76,9 +54,9 @@ const StudentJournalFormWithFormik = withFormik({
   validate: values => validate(values),
   handleSubmit: async (values, { resetForm, props: { onSubmit } }) => {
     await onSubmit(values);
-    resetForm({ subject: "", activity: "", activityDate: "", content: "" });
+    resetForm({ subject: '', activity: '', activityDate: '', content: '' });
   },
-  displayName: "JournalForm", // helps with React DevTools
+  displayName: 'JournalForm', // helps with React DevTools
   enableReinitialize: true
 });
 

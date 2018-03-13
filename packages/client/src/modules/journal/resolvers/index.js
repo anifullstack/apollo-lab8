@@ -6,7 +6,7 @@ const TYPE_NAME_JOURNAL = "Journal";
 const defaults = {
   journal: {
     id: null,
-    subject: "SENS",
+    subject: "",
     activity: "",
     activityDate: "",
     content: "",

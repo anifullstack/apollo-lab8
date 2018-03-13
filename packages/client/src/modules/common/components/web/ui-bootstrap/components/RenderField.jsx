@@ -14,16 +14,7 @@ const RenderField = ({
   if (touched && error) {
     valid = false;
   }
-  console.log(
-    "RenderField",
-    "constructor",
-    "placeholder",
-    placeholder,
-    "type",
-    type,
-    "input",
-    input
-  );
+  //console.log('RenderField', 'constructor', 'placeholder', placeholder, 'type', type, 'input', input);
   return (
     <FormGroup>
       {label && <Label>{label}</Label>}

@@ -1,9 +1,9 @@
-import { withFilter } from "graphql-subscriptions";
-import { createBatchResolver } from "graphql-resolve-batch";
+import { withFilter } from 'graphql-subscriptions';
+import { createBatchResolver } from 'graphql-resolve-batch';
 
-const STUDENT_SUBSCRIPTION = "student_subscription";
-const STUDENTS_SUBSCRIPTION = "students_subscription";
-const JOURNAL_SUBSCRIPTION = "journal_subscription";
+const STUDENT_SUBSCRIPTION = 'student_subscription';
+const STUDENTS_SUBSCRIPTION = 'students_subscription';
+const JOURNAL_SUBSCRIPTION = 'journal_subscription';
 
 export default pubsub => ({
   Query: {
@@ -24,13 +24,9 @@ export default pubsub => ({
         });
       });
 
-      const endCursor =
-        edgesArray.length > 0 ? edgesArray[edgesArray.length - 1].cursor : 0;
+      const endCursor = edgesArray.length > 0 ? edgesArray[edgesArray.length - 1].cursor : 0;
 
-      const values = await Promise.all([
-        context.Student.getTotal(),
-        context.Student.getNextPageFlag(endCursor)
-      ]);
+      const values = await Promise.all([context.Student.getTotal(), context.Student.getNextPageFlag(endCursor)]);
 
       return {
         totalCount: values[0].count,
@@ -47,9 +43,7 @@ export default pubsub => ({
   },
   Student: {
     journals: createBatchResolver((sources, args, context) => {
-      return context.Student.getJournalsForStudentIds(
-        sources.map(({ id }) => id)
-      );
+      return context.Student.getJournalsForStudentIds(sources.map(({ id }) => id));
     })
   },
   Mutation: {
@@ -59,7 +53,7 @@ export default pubsub => ({
       // publish for student list
       pubsub.publish(STUDENTS_SUBSCRIPTION, {
         studentsUpdated: {
-          mutation: "CREATED",
+          mutation: 'CREATED',
           id,
           node: student
         }
@@ -73,7 +67,7 @@ export default pubsub => ({
         // publish for student list
         pubsub.publish(STUDENTS_SUBSCRIPTION, {
           studentsUpdated: {
-            mutation: "DELETED",
+            mutation: 'DELETED',
             id,
             node: student
           }
@@ -89,7 +83,7 @@ export default pubsub => ({
       // publish for student list
       pubsub.publish(STUDENTS_SUBSCRIPTION, {
         studentsUpdated: {
-          mutation: "UPDATED",
+          mutation: 'UPDATED',
           id: student.id,
           node: student
         }
@@ -104,7 +98,7 @@ export default pubsub => ({
       // publish for edit student page
       pubsub.publish(JOURNAL_SUBSCRIPTION, {
         journalUpdated: {
-          mutation: "CREATED",
+          mutation: 'CREATED',
           id: journal.id,
           studentId: input.studentId,
           node: journal
@@ -117,7 +111,7 @@ export default pubsub => ({
       // publish for edit student page
       pubsub.publish(JOURNAL_SUBSCRIPTION, {
         journalUpdated: {
-          mutation: "DELETED",
+          mutation: 'DELETED',
           id,
           studentId,
           node: null
@@ -131,7 +125,7 @@ export default pubsub => ({
       // publish for edit student page
       pubsub.publish(JOURNAL_SUBSCRIPTION, {
         journalUpdated: {
-          mutation: "UPDATED",
+          mutation: 'UPDATED',
           id: input.id,
           studentId: input.studentId,
           node: journal

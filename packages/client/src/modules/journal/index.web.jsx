@@ -1,14 +1,14 @@
-import React from "react";
-import { Route, NavLink } from "react-router-dom";
-import { MenuItem } from "../../modules/common/components/web";
+import React from 'react';
+import { Route, NavLink } from 'react-router-dom';
+import { MenuItem } from '../../modules/common/components/web';
 
-import Student from "./containers/Student";
-import StudentEdit from "./containers/StudentEdit";
-import StudentJournal from "./containers/StudentEdit";
+import Student from './containers/Student';
+import StudentEdit from './containers/StudentEdit';
+import StudentJournal from './containers/StudentEdit';
 
-import resolvers from "./resolvers";
+import resolvers from './resolvers';
 
-import Feature from "../connector";
+import Feature from '../connector';
 
 export default new Feature({
   route: [

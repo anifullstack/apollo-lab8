@@ -1,16 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { graphql, compose } from "react-apollo";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { graphql, compose } from 'react-apollo';
 
-import StudentEditView from "../components/StudentEditView";
-import StudentReadView from "../components/StudentReadView";
+import StudentEditView from '../components/StudentEditView';
+import StudentReadView from '../components/StudentReadView';
 
-import { AddStudent } from "./Student";
+import { AddStudent } from './Student';
 
-import STUDENT_QUERY from "../graphql/StudentQuery.graphql";
-import ADD_STUDENT from "../graphql/AddStudent.graphql";
-import EDIT_STUDENT from "../graphql/EditStudent.graphql";
-import STUDENT_SUBSCRIPTION from "../graphql/StudentSubscription.graphql";
+import STUDENT_QUERY from '../graphql/StudentQuery.graphql';
+import ADD_STUDENT from '../graphql/AddStudent.graphql';
+import EDIT_STUDENT from '../graphql/EditStudent.graphql';
+import STUDENT_SUBSCRIPTION from '../graphql/StudentSubscription.graphql';
 
 class StudentEdit extends React.Component {
   static propTypes = {
@@ -56,19 +56,14 @@ class StudentEdit extends React.Component {
   };
 
   render() {
-    if (
-      this.props &&
-      this.props.match &&
-      this.props.match.path &&
-      this.props.match.path.includes("journal")
-    ) {
+    if (this.props && this.props.match && this.props.match.path && this.props.match.path.includes('journal')) {
       return <StudentReadView {...this.props} />;
     } else if (
       this.props &&
       this.props.navigation &&
       this.props.navigation.state &&
       this.props.navigation.state.routeName &&
-      this.props.navigation.state.routeName.includes("StudentJournal")
+      this.props.navigation.state.routeName.includes('StudentJournal')
     ) {
       return <StudentReadView {...this.props} />;
     } else return <StudentEditView {...this.props} />;
@@ -100,9 +95,9 @@ export default compose(
         let studentData = await mutate({
           variables: { input: { firstName, lastName, birthDate, content } },
           optimisticResponse: {
-            __typename: "Mutation",
+            __typename: 'Mutation',
             addStudent: {
-              __typename: "Student",
+              __typename: 'Student',
               id: null,
               firstName: firstName,
               lastName: lastName,
@@ -119,7 +114,7 @@ export default compose(
         });
 
         if (history) {
-          return history.push("/student/" + studentData.data.addStudent.id, {
+          return history.push('/student/' + studentData.data.addStudent.id, {
             student: studentData.data.addStudent
           });
         } else if (navigation) {
@@ -138,7 +133,7 @@ export default compose(
           variables: { input: { id, firstName, lastName, birthDate, content } }
         });
         if (history) {
-          return history.push("/students");
+          return history.push('/students');
         }
         if (navigation) {
           return navigation.goBack();

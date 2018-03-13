@@ -1,13 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withFormik } from "formik";
-import Field from "../../../utils/FieldAdapter";
-import {
-  FormView,
-  RenderField,
-  FormButton
-} from "../../common/components/native";
-import { required, validateForm } from "../../../../../common/validation";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withFormik } from 'formik';
+import Field from '../../../utils/FieldAdapter';
+import { FormView, RenderField, FormButton } from '../../common/components/native';
+import { required, validateForm } from '../../../../../common/validation';
 
 const studentFormSchema = {
   firstName: [required],
@@ -21,34 +17,10 @@ const validate = values => validateForm(values, studentFormSchema);
 const StudentForm = ({ values, handleSubmit }) => {
   return (
     <FormView>
-      <Field
-        name="firstName"
-        component={RenderField}
-        type="text"
-        placeholder="First Name"
-        value={values.firstName}
-      />
-      <Field
-        name="lastName"
-        component={RenderField}
-        type="text"
-        placeholder="Last Name"
-        value={values.lastName}
-      />
-      <Field
-        name="birthDate"
-        component={RenderField}
-        type="text"
-        placeholder="Birth Date"
-        value={values.birthDate}
-      />
-      <Field
-        name="content"
-        component={RenderField}
-        type="text"
-        placeholder="content"
-        value={values.content}
-      />
+      <Field name="firstName" component={RenderField} type="text" placeholder="First Name" value={values.firstName} />
+      <Field name="lastName" component={RenderField} type="text" placeholder="Last Name" value={values.lastName} />
+      <Field name="birthDate" component={RenderField} type="text" placeholder="Birth Date" value={values.birthDate} />
+      <Field name="content" component={RenderField} type="text" placeholder="content" value={values.content} />
       <FormButton onPress={handleSubmit}>Save</FormButton>
     </FormView>
   );
@@ -73,7 +45,7 @@ const StudentFormWithFormik = withFormik({
   handleSubmit(values, { props: { onSubmit } }) {
     onSubmit(values);
   },
-  displayName: "StudentForm" // helps with React DevTools
+  displayName: 'StudentForm' // helps with React DevTools
 });
 
 export default StudentFormWithFormik(StudentForm);

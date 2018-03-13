@@ -19,8 +19,8 @@ const journalFormSchema = {
 
 const validate = values => validateForm(values, journalFormSchema);
 
-const StudentJournalForm = ({ values, handleSubmit, journal }) => {
-  console.log("StudentJournalForm", "values", values);
+const StudentJournalForm = ({ values, handleSubmit, journal, subjects }) => {
+  // console.log("StudentJournalFormWeb", "subjects", subjects);
   return (
     <Form name="journal" onSubmit={handleSubmit}>
       <Row>
@@ -42,10 +42,15 @@ const StudentJournalForm = ({ values, handleSubmit, journal }) => {
             value={values.subject}
             placeholder="subject"
           >
-            <option value="MATH">Math</option>
-            <option value="PR">Practical Life</option>
-            <option value="LANG">Language</option>
-            <option value="SENS">Sensorial</option>
+            <option value="placeholder">Select Subject </option>
+            {subjects &&
+              subjects.map(s => {
+                return (
+                  <option key={s.id} value={s.name}>
+                    {s.name}
+                  </option>
+                );
+              })}
           </Field>
           <Field
             name="activity"
@@ -94,6 +99,7 @@ const StudentJournalFormWithFormik = withFormik({
     content: props.journal && props.journal.content
   }),
   async handleSubmit(values, { resetForm, props: { onSubmit } }) {
+    console.log("StudentJournalFormWeb|handleSubmit|values", values);
     await onSubmit(values);
     resetForm({ content: "" });
   },
