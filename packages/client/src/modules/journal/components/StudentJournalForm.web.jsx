@@ -69,9 +69,12 @@ const StudentJournalForm = ({
             {activitys &&
               activitys.map(a => {
                 return (
-                  <option key={a.id} value={a.name}>
-                    {a.name}
-                  </option>
+                  a.subject &&
+                  a.subject === values.subject && (
+                    <option key={a.id} value={a.name}>
+                      {a.name}
+                    </option>
+                  )
                 );
               })}
           </Field>
