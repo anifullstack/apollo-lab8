@@ -19,7 +19,13 @@ const journalFormSchema = {
 
 const validate = values => validateForm(values, journalFormSchema);
 
-const StudentJournalForm = ({ values, handleSubmit, journal, subjects }) => {
+const StudentJournalForm = ({
+  values,
+  handleSubmit,
+  journal,
+  subjects,
+  activitys
+}) => {
   // console.log("StudentJournalFormWeb", "subjects", subjects);
   return (
     <Form name="journal" onSubmit={handleSubmit}>
@@ -55,10 +61,20 @@ const StudentJournalForm = ({ values, handleSubmit, journal, subjects }) => {
           <Field
             name="activity"
             component={RenderField}
-            type="text"
+            type="select"
             value={values.activity}
             placeholder="activity"
-          />
+          >
+            <option value="placeholder">Select Activity </option>
+            {activitys &&
+              activitys.map(a => {
+                return (
+                  <option key={a.id} value={a.name}>
+                    {a.name}
+                  </option>
+                );
+              })}
+          </Field>
 
           <Field
             name="content"

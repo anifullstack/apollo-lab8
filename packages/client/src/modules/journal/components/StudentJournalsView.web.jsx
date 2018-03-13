@@ -94,7 +94,7 @@ export default class StudentJournalsView extends React.PureComponent {
   };
 
   render() {
-    const { studentId, journals, journal, subjects } = this.props;
+    const { studentId, journals, journal, subjects, activitys } = this.props;
     console.log("StudentJournalsViewWeb|render|subjects", subjects);
     const columns = [
       {
@@ -169,6 +169,7 @@ export default class StudentJournalsView extends React.PureComponent {
           initialValues={journal}
           journal={journal}
           subjects={subjects}
+          activitys={activitys}
         />
         <h1 />
         <Table dataSource={journals} columns={columns} />

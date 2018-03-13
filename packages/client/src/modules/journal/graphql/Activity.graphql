@@ -1,0 +1,5 @@
+fragment ActivityInfo on Activity {
+  id
+  subject
+  name
+}

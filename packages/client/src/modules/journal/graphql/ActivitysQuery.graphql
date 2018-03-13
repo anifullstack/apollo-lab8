@@ -1,0 +1,8 @@
+#import "./Activity.graphql"
+
+query activitys {
+  activitys{
+    ... ActivityInfo
+  }
+}
+

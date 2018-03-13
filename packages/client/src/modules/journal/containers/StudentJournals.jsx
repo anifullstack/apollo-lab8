@@ -12,6 +12,7 @@ import JOURNAL_SUBSCRIPTION from "../graphql/JournalSubscription.graphql";
 import ADD_JOURNAL_CLIENT from "../graphql/AddJournal.client.graphql";
 import JOURNAL_QUERY_CLIENT from "../graphql/JournalQuery.client.graphql";
 import SUBJECTS_QUERY from "../graphql/SubjectsQuery.graphql";
+import ACTIVITYS_QUERY from "../graphql/ActivitysQuery.graphql";
 
 function AddJournal(prev, node) {
   // ignore if duplicate
@@ -211,6 +212,19 @@ const StudentJournalsWithApollo = compose(
       const { loading, error, subjects } = data;
       if (error) throw new Error(error);
       return { loading, subjects };
+    }
+  }),
+  graphql(ACTIVITYS_QUERY, {
+    options: () => {
+      return {
+        variables: {}
+      };
+    },
+    props: ({ data }) => {
+      console.log("StudentJournals", "ACTIVITYS_QUERY", "data", data);
+      const { loading, error, activitys } = data;
+      if (error) throw new Error(error);
+      return { loading, activitys };
     }
   }),
   graphql(JOURNAL_QUERY_CLIENT, {
