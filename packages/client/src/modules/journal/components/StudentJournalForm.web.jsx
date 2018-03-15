@@ -6,6 +6,7 @@ import {
   Form,
   RenderField,
   RenderSelect,
+  ReactSelect,
   Row,
   Col,
   Label,
@@ -42,7 +43,7 @@ const StudentJournalForm = ({
             placeholder="activityDate"
           />
           <Field
-            component={RenderField}
+            component={ReactSelect}
             type="select"
             name="subject"
             value={values.subject}
