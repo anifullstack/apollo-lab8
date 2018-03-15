@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FormGroup, Label, Input, FormFeedback } from "reactstrap";
+import "./../styles/typeahead.scss";
 
 const RenderField = ({
   input,
