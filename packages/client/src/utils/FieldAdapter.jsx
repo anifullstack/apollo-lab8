@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Platform } from 'react-native';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { Platform } from "react-native";
+import PropTypes from "prop-types";
 
 export default class FieldAdapter extends Component {
   static contextTypes = {
@@ -22,9 +22,11 @@ export default class FieldAdapter extends Component {
 
   constructor(props, context) {
     super(props, context);
-    console.log('FieldAdapter', 'constructor', 'props', props);
+    //console.log('FieldAdapter', 'constructor', 'props', props);
     if (!context.formik) {
-      throw new Error('Field must be inside a component decorated with formik()');
+      throw new Error(
+        "Field must be inside a component decorated with formik()"
+      );
     }
   }
 
@@ -43,7 +45,7 @@ export default class FieldAdapter extends Component {
     if (onBlur) {
       onBlur(e);
     } else {
-      if (Platform.OS === 'web') {
+      if (Platform.OS === "web") {
         formik.handleBlur(e);
       } else {
         formik.setFieldTouched(name, true);
@@ -64,10 +66,16 @@ export default class FieldAdapter extends Component {
 
   render() {
     const { formik } = this.context;
-    const { component, name, defaultValue, defaultChecked, disabled } = this.props;
+    const {
+      component,
+      name,
+      defaultValue,
+      defaultChecked,
+      disabled
+    } = this.props;
     // console.log("FieldAdapter", "render", "component", component);
     let { value, checked } = this.props;
-    value = value || '';
+    value = value || "";
     checked = checked || false;
     const meta = {
       touched: formik.touched[name],
@@ -84,7 +92,8 @@ export default class FieldAdapter extends Component {
       disabled
     };
 
-    const changeEventHandler = Platform.OS === 'web' ? 'onChange' : 'onChangeText';
+    const changeEventHandler =
+      Platform.OS === "web" ? "onChange" : "onChangeText";
     input[changeEventHandler] = this[changeEventHandler];
 
     return React.createElement(component, {
