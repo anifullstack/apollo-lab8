@@ -4,12 +4,16 @@ import { withFormik } from "formik";
 import moment from "moment";
 import Field from "../../../utils/FieldAdapter";
 import { Form, RenderField, Button } from "../../common/components/web";
-import { required, validateForm } from "../../../../../common/validation";
+import {
+  required,
+  validateForm,
+  dateValidation
+} from "../../../../../common/validation";
 
 const studentFormSchema = {
   firstName: [required],
   lastName: [required],
-
+  birthDate: [required, dateValidation],
   content: [required]
 };
 
@@ -47,7 +51,7 @@ const StudentForm = ({ values, handleSubmit, submitting }) => {
         name="birthDate"
         component={RenderField}
         type="text"
-        placeholder="Birth Date"
+        placeholder="Birth Date (MM/DD/YYYY)"
         value={values.birthDate}
       />
       <Field
