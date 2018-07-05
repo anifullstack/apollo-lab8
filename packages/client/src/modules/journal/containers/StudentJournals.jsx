@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { graphql, compose } from 'react-apollo';
-import update from 'immutability-helper';
+import React from "react";
+import PropTypes from "prop-types";
+import { graphql, compose } from "react-apollo";
+import update from "immutability-helper";
 
-import StudentJournalsView from '../components/StudentJournalsView';
+import StudentJournalsView from "../components/StudentJournalsView";
 
-import ADD_JOURNAL from '../graphql/AddJournal.graphql';
-import EDIT_JOURNAL from '../graphql/EditJournal.graphql';
-import DELETE_JOURNAL from '../graphql/DeleteJournal.graphql';
-import JOURNAL_SUBSCRIPTION from '../graphql/JournalSubscription.graphql';
-import ADD_JOURNAL_CLIENT from '../graphql/AddJournal.client.graphql';
-import JOURNAL_QUERY_CLIENT from '../graphql/JournalQuery.client.graphql';
-import SUBJECTS_QUERY from '../graphql/SubjectsQuery.graphql';
-import ACTIVITYS_QUERY from '../graphql/ActivitysQuery.graphql';
+import ADD_JOURNAL from "../graphql/AddJournal.graphql";
+import EDIT_JOURNAL from "../graphql/EditJournal.graphql";
+import DELETE_JOURNAL from "../graphql/DeleteJournal.graphql";
+import JOURNAL_SUBSCRIPTION from "../graphql/JournalSubscription.graphql";
+import ADD_JOURNAL_CLIENT from "../graphql/AddJournal.client.graphql";
+import JOURNAL_QUERY_CLIENT from "../graphql/JournalQuery.client.graphql";
+import SUBJECTS_QUERY from "../graphql/SubjectsQuery.graphql";
+import ACTIVITYS_QUERY from "../graphql/ActivitysQuery.graphql";
 
 function AddJournal(prev, node) {
   // ignore if duplicate
@@ -77,10 +77,10 @@ class StudentJournals extends React.Component {
   componentWillUnmount() {
     this.props.onJournalSelect({
       id: null,
-      subject: '',
-      activity: '',
-      activityDate: '',
-      content: ''
+      subject: "",
+      activity: "",
+      activityDate: "",
+      content: ""
     });
 
     if (this.subscription) {
@@ -95,12 +95,17 @@ class StudentJournals extends React.Component {
     this.subscription = subscribeToMore({
       document: JOURNAL_SUBSCRIPTION,
       variables: { studentId },
-      updateQuery: (prev, { subscriptionData: { data: { journalUpdated: { mutation, id, node } } } }) => {
+      updateQuery: (
+        prev,
+        {
+          subscriptionData: { data: { journalUpdated: { mutation, id, node } } }
+        }
+      ) => {
         let newResult = prev;
 
-        if (mutation === 'CREATED') {
+        if (mutation === "CREATED") {
           newResult = AddJournal(prev, node);
-        } else if (mutation === 'DELETED') {
+        } else if (mutation === "DELETED") {
           newResult = DeleteJournal(prev, id);
         }
 
@@ -110,6 +115,9 @@ class StudentJournals extends React.Component {
   };
 
   render() {
+    console.log(
+      `StudentJournals|render|journals|${JSON.stringify(this.props.journals)}`
+    );
     return <StudentJournalsView {...this.props} />;
   }
 }
@@ -123,9 +131,9 @@ const StudentJournalsWithApollo = compose(
             input: { subject, activity, activityDate, content, studentId }
           },
           optimisticResponse: {
-            __typename: 'Mutation',
+            __typename: "Mutation",
             addJournal: {
-              __typename: 'Journal',
+              __typename: "Journal",
               id: null,
               subject: subject,
               activity: activity,
@@ -151,9 +159,9 @@ const StudentJournalsWithApollo = compose(
             input: { id, studentId, subject, activity, activityDate, content }
           },
           optimisticResponse: {
-            __typename: 'Mutation',
+            __typename: "Mutation",
             editJournal: {
-              __typename: 'Journal',
+              __typename: "Journal",
               id: id,
               subject: subject,
               activity: activity,
@@ -170,14 +178,17 @@ const StudentJournalsWithApollo = compose(
         mutate({
           variables: { input: { id, studentId } },
           optimisticResponse: {
-            __typename: 'Mutation',
+            __typename: "Mutation",
             deleteJournal: {
-              __typename: 'Journal',
+              __typename: "Journal",
               id: id
             }
           },
           updateQueries: {
-            student: (prev, { mutationResult: { data: { deleteJournal } } }) => {
+            student: (
+              prev,
+              { mutationResult: { data: { deleteJournal } } }
+            ) => {
               if (prev.student) {
                 return DeleteJournal(prev, deleteJournal.id);
               }
@@ -200,7 +211,7 @@ const StudentJournalsWithApollo = compose(
       };
     },
     props: ({ data }) => {
-      console.log('StudentJournals', 'SUBJECTS_QUERY', 'data', data);
+      //console.log('StudentJournals', 'SUBJECTS_QUERY', 'data', data);
       const { loading, error, subjects } = data;
       if (error) throw new Error(error);
       return { loading, subjects };
@@ -213,7 +224,7 @@ const StudentJournalsWithApollo = compose(
       };
     },
     props: ({ data }) => {
-      console.log('StudentJournals', 'ACTIVITYS_QUERY', 'data', data);
+      //console.log("StudentJournals", "ACTIVITYS_QUERY", "data", data);
       const { loading, error, activitys } = data;
       if (error) throw new Error(error);
       return { loading, activitys };
