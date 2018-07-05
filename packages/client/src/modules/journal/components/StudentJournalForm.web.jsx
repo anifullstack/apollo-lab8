@@ -1,24 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withFormik } from "formik";
-import moment from "moment";
-import Field from "../../../utils/FieldAdapter";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withFormik } from 'formik';
+import moment from 'moment';
+import Field from '../../../utils/FieldAdapter';
 
-import {
-  Form,
-  RenderField,
-  RenderSelect,
-  ReactSelect,
-  Row,
-  Col,
-  Label,
-  Button
-} from "../../common/components/web";
-import {
-  required,
-  validateForm,
-  dateValidation
-} from "../../../../../common/validation";
+import { Form, RenderField, RenderSelect, ReactSelect, Row, Col, Label, Button } from '../../common/components/web';
+import { required, validateForm, dateValidation } from '../../../../../common/validation';
 
 const journalFormSchema = {
   activity: [required],
@@ -27,13 +14,7 @@ const journalFormSchema = {
 
 const validate = values => validateForm(values, journalFormSchema);
 
-const StudentJournalForm = ({
-  values,
-  handleSubmit,
-  journal,
-  subjects,
-  activitys
-}) => {
+const StudentJournalForm = ({ values, handleSubmit, journal, subjects, activitys }) => {
   console.log(`StudentFormWeb|values.activityDate|${values.activityDate}`);
   var tempBirthDate;
   if (
@@ -42,15 +23,13 @@ const StudentJournalForm = ({
     values.activityDate.length >= 10 &&
     moment(parseInt(values.activityDate)).isValid()
   ) {
-    values.activityDate = moment(parseInt(values.activityDate)).format(
-      "MM/DD/YYYY"
-    );
+    values.activityDate = moment(parseInt(values.activityDate)).format('MM/DD/YYYY');
   }
   return (
     <Form name="journal" onSubmit={handleSubmit}>
       <Row>
         <Col xs={2}>
-          <Label>{journal.id === null ? "Add journal" : "Edit journal"}</Label>
+          <Label>{journal.id === null ? 'Add journal' : 'Edit journal'}</Label>
         </Col>
         <Col xs={8}>
           <Field
@@ -60,13 +39,7 @@ const StudentJournalForm = ({
             value={values.activityDate}
             placeholder="Activity Date (MM/DD/YYYY)"
           />
-          <Field
-            component={ReactSelect}
-            type="select"
-            name="subject"
-            value={values.subject}
-            placeholder="subject"
-          >
+          <Field component={ReactSelect} type="select" name="subject" value={values.subject} placeholder="subject">
             <option value="placeholder">Select Subject </option>
             {subjects &&
               subjects.map(s => {
@@ -77,13 +50,7 @@ const StudentJournalForm = ({
                 );
               })}
           </Field>
-          <Field
-            name="activity"
-            component={RenderField}
-            type="select"
-            value={values.activity}
-            placeholder="activity"
-          >
+          <Field name="activity" component={RenderField} type="select" value={values.activity} placeholder="activity">
             <option value="placeholder">Select Activity </option>
             {activitys &&
               activitys.map(a => {
@@ -98,13 +65,7 @@ const StudentJournalForm = ({
               })}
           </Field>
 
-          <Field
-            name="content"
-            component={RenderField}
-            type="text"
-            value={values.content}
-            placeholder="Journal"
-          />
+          <Field name="content" component={RenderField} type="text" value={values.content} placeholder="Journal" />
         </Col>
         <Col xs={2}>
           <Button color="primary" type="submit" className="float-right">
@@ -137,20 +98,20 @@ const StudentJournalFormWithFormik = withFormik({
     content: props.journal && props.journal.content
   }),
   async handleSubmit(values, { resetForm, props: { onSubmit } }) {
-    values.activityDate = moment(values.activityDate, "MM/DD/YYYY").valueOf();
+    values.activityDate = moment(values.activityDate, 'MM/DD/YYYY').valueOf();
     console.log(
-      "StudentJournalFormWeb",
-      "StudentJournalFormWithFormik",
-      "handleSubmit",
-      "values.activityDate",
+      'StudentJournalFormWeb',
+      'StudentJournalFormWithFormik',
+      'handleSubmit',
+      'values.activityDate',
       values.activityDate
     );
 
     await onSubmit(values);
-    resetForm({ content: "" });
+    resetForm({ content: '' });
   },
   validate: values => validate(values),
-  displayName: "JournalForm", // helps with React DevTools,
+  displayName: 'JournalForm', // helps with React DevTools,
   enableReinitialize: true
 });
 

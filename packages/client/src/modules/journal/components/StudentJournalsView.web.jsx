@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import moment from "moment";
-import { Table, Button } from "../../common/components/web";
-import StudentJournalForm from "./StudentJournalForm";
+import React from 'react';
+import PropTypes from 'prop-types';
+import moment from 'moment';
+import { Table, Button } from '../../common/components/web';
+import StudentJournalForm from './StudentJournalForm';
 
 export default class StudentJournalsView extends React.PureComponent {
   static propTypes = {
@@ -27,15 +27,15 @@ export default class StudentJournalsView extends React.PureComponent {
 
   handleEditJournal = (id, subject, activity, activityDate, content) => {
     console.log(
-      "StudentJournalsViewWeb",
-      "handleEditJournal",
-      "activityDate",
+      'StudentJournalsViewWeb',
+      'handleEditJournal',
+      'activityDate',
       activityDate,
-      "subject",
+      'subject',
       subject,
-      "activity",
+      'activity',
       activity,
-      "content",
+      'content',
       content
     );
     const { onJournalSelect } = this.props;
@@ -48,10 +48,10 @@ export default class StudentJournalsView extends React.PureComponent {
     if (journal.id === id) {
       onJournalSelect({
         id: null,
-        subject: "",
-        activity: "",
-        activityDate: "",
-        content: ""
+        subject: '',
+        activity: '',
+        activityDate: '',
+        content: ''
       });
     }
 
@@ -59,38 +59,20 @@ export default class StudentJournalsView extends React.PureComponent {
   };
 
   onSubmit = () => values => {
-    const {
-      journal,
-      studentId,
-      addJournal,
-      editJournal,
-      onJournalSelect
-    } = this.props;
+    const { journal, studentId, addJournal, editJournal, onJournalSelect } = this.props;
 
     if (journal.id === null) {
-      addJournal(
-        values.subject,
-        values.activity,
-        values.activityDate,
-        values.content,
-        studentId
-      );
+      addJournal(values.subject, values.activity, values.activityDate, values.content, studentId);
     } else {
-      editJournal(
-        journal.id,
-        values.subject,
-        values.activity,
-        values.activityDate,
-        values.content
-      );
+      editJournal(journal.id, values.subject, values.activity, values.activityDate, values.content);
     }
 
     onJournalSelect({
       id: null,
-      subject: "",
-      activity: "",
-      activityDate: "",
-      content: ""
+      subject: '',
+      activity: '',
+      activityDate: '',
+      content: ''
     });
   };
 
@@ -99,9 +81,7 @@ export default class StudentJournalsView extends React.PureComponent {
     let js = journals.map(j => {
       let tempActivityDate = j.activityDate;
       if (j.activityDate && !isNaN(j.activityDate)) {
-        tempActivityDate = moment(parseInt(j.activityDate)).format(
-          "MM/DD/YYYY"
-        );
+        tempActivityDate = moment(parseInt(j.activityDate)).format('MM/DD/YYYY');
       }
 
       return {
@@ -109,34 +89,34 @@ export default class StudentJournalsView extends React.PureComponent {
         activityDate: tempActivityDate
       };
     });
-    console.log("StudentJournalsViewWeb|render|journals", journals);
+    console.log('StudentJournalsViewWeb|render|journals', journals);
 
-    console.log("StudentJournalsViewWeb|render|js", js);
+    console.log('StudentJournalsViewWeb|render|js', js);
 
     const columns = [
       {
-        title: "Activity Date",
-        dataIndex: "activityDate",
-        key: "activityDate"
+        title: 'Activity Date',
+        dataIndex: 'activityDate',
+        key: 'activityDate'
       },
       {
-        title: "subject",
-        dataIndex: "subject",
-        key: "subject"
+        title: 'subject',
+        dataIndex: 'subject',
+        key: 'subject'
       },
       {
-        title: "activity",
-        dataIndex: "activity",
-        key: "activity"
+        title: 'activity',
+        dataIndex: 'activity',
+        key: 'activity'
       },
       {
-        title: "Content",
-        dataIndex: "content",
-        key: "content"
+        title: 'Content',
+        dataIndex: 'content',
+        key: 'content'
       },
       {
-        title: "Actions",
-        key: "actions",
+        title: 'Actions',
+        key: 'actions',
         width: 120,
         render: (text, record) => (
           <div style={{ width: 120 }}>
@@ -145,17 +125,11 @@ export default class StudentJournalsView extends React.PureComponent {
               size="sm"
               className="edit-journal"
               onClick={() =>
-                this.handleEditJournal(
-                  record.id,
-                  record.subject,
-                  record.activity,
-                  record.activityDate,
-                  record.content
-                )
+                this.handleEditJournal(record.id, record.subject, record.activity, record.activityDate, record.content)
               }
             >
               Edit
-            </Button>{" "}
+            </Button>{' '}
             <Button
               color="primary"
               size="sm"
